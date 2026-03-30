@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Car, ArrowLeft, Upload, Plus, X, LogOut } from "lucide-react";
+import { Car, ArrowLeft, Upload, Plus, X, LogOut, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,9 +12,11 @@ import { authService } from "@/services/authService";
 import { SEO } from "@/components/SEO";
 import { AdminGuard } from "@/components/AdminGuard";
 
-export default function NewVehicle() {
+export default function EditVehicle() {
   const router = useRouter();
+  const { id } = router.query;
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
   
@@ -44,8 +46,54 @@ export default function NewVehicle() {
     vin: "",
   });
 
+  useEffect(() => {
+    if (id && typeof id === "string") {
+      loadVehicle(id);
+    }
+  }, [id]);
+
+  const loadVehicle = async (vehicleId: string) => {
+    try {
+      const vehicle = await vehicleService.getById(vehicleId);
+      if (vehicle) {
+        setFormData({
+          make: vehicle.make,
+          model: vehicle.model,
+          year: vehicle.year,
+          price: vehicle.price,
+          mileage: vehicle.mileage,
+          transmission: vehicle.transmission || "automatic",
+          fuel_type: vehicle.fuel_type || "gasoline",
+          body_type: vehicle.body_type || "sedan",
+          exterior_color: vehicle.exterior_color || "",
+          interior_color: vehicle.interior_color || "",
+          engine: vehicle.engine || "",
+          horsepower: vehicle.horsepower || 0,
+          doors: vehicle.doors || 4,
+          seats: vehicle.seats || 5,
+          condition: vehicle.condition || "excellent",
+          category: vehicle.category || "for_sale",
+          status: vehicle.status || "available",
+          description: vehicle.description || "",
+          features: vehicle.features || [],
+          import_country: vehicle.import_country || "",
+          import_status: vehicle.import_status || "",
+          estimated_arrival: vehicle.estimated_arrival || "",
+          vin: vehicle.vin || "",
+        });
+        setImageUrls(vehicle.images || []);
+      }
+    } catch (error) {
+      console.error("Error loading vehicle:", error);
+    } finally {
+      setInitialLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!id || typeof id !== "string") return;
+    
     setLoading(true);
 
     try {
@@ -54,11 +102,11 @@ export default function NewVehicle() {
         images: imageUrls,
       };
 
-      await vehicleService.create(vehicleData);
+      await vehicleService.update(id, vehicleData);
       router.push("/admin/vehicles");
     } catch (error) {
-      console.error("Error creating vehicle:", error);
-      alert("Failed to create vehicle. Please try again.");
+      console.error("Error updating vehicle:", error);
+      alert("Failed to update vehicle. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -94,9 +142,19 @@ export default function NewVehicle() {
     }
   };
 
+  if (initialLoading) {
+    return (
+      <AdminGuard>
+        <div className="min-h-screen bg-space flex items-center justify-center">
+          <Loader2 className="h-12 w-12 text-cyan animate-spin" />
+        </div>
+      </AdminGuard>
+    );
+  }
+
   return (
     <AdminGuard>
-      <SEO title="Add New Vehicle" />
+      <SEO title="Edit Vehicle" />
       <div className="min-h-screen bg-space">
         <div className="grid-pattern" />
         
@@ -115,8 +173,8 @@ export default function NewVehicle() {
                     <Car className="h-6 w-6 text-cyan" />
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold text-foreground">Add New Vehicle</h1>
-                    <p className="text-sm text-muted-foreground">Fill in the details below</p>
+                    <h1 className="text-2xl font-bold text-foreground">Edit Vehicle</h1>
+                    <p className="text-sm text-muted-foreground">{formData.year} {formData.make} {formData.model}</p>
                   </div>
                 </div>
                 <Button 
@@ -432,7 +490,7 @@ export default function NewVehicle() {
                           id="estimated_arrival"
                           name="estimated_arrival"
                           type="date"
-                          value={formData.estimated_arrival}
+                          value={formData.estimated_arrival ? formData.estimated_arrival.split('T')[0] : ''}
                           onChange={handleInputChange}
                           className="bg-background/50 border-cyan/20 focus:border-cyan"
                         />
@@ -517,7 +575,7 @@ export default function NewVehicle() {
                   disabled={loading}
                   className="bg-cyan hover:bg-cyan-light text-space"
                 >
-                  {loading ? "Saving..." : "Save Vehicle"}
+                  {loading ? "Saving..." : "Update Vehicle"}
                 </Button>
               </div>
             </form>

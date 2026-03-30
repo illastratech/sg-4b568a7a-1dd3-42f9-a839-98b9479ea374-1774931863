@@ -26,7 +26,7 @@ export default function VehiclesManagement() {
 
   const loadVehicles = async () => {
     try {
-      const data = await vehicleService.getAllVehicles();
+      const data = await vehicleService.getAll();
       setVehicles(data);
     } catch (error) {
       console.error("Error loading vehicles:", error);
@@ -39,7 +39,7 @@ export default function VehiclesManagement() {
     if (!confirm("Are you sure you want to delete this vehicle?")) return;
 
     try {
-      await vehicleService.deleteVehicle(id);
+      await vehicleService.delete(id);
       setVehicles(vehicles.filter(v => v.id !== id));
     } catch (error) {
       console.error("Error deleting vehicle:", error);
