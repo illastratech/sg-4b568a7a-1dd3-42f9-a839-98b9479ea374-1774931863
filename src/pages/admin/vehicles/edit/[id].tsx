@@ -33,16 +33,14 @@ export default function EditVehicle() {
     interior_color: "",
     engine: "",
     horsepower: 0,
-    doors: 4,
-    seats: 5,
+    location: "",
     condition: "excellent",
     category: "for_sale",
     status: "available",
     description: "",
     features: [] as string[],
-    import_country: "",
     import_status: "",
-    estimated_arrival: "",
+    estimated_arrival_date: "",
     vin: "",
   });
 
@@ -69,16 +67,14 @@ export default function EditVehicle() {
           interior_color: vehicle.interior_color || "",
           engine: vehicle.engine || "",
           horsepower: vehicle.horsepower || 0,
-          doors: vehicle.doors || 4,
-          seats: vehicle.seats || 5,
+          location: vehicle.location || "",
           condition: vehicle.condition || "excellent",
           category: vehicle.category || "for_sale",
           status: vehicle.status || "available",
           description: vehicle.description || "",
           features: vehicle.features || [],
-          import_country: vehicle.import_country || "",
           import_status: vehicle.import_status || "",
-          estimated_arrival: vehicle.estimated_arrival || "",
+          estimated_arrival_date: vehicle.estimated_arrival_date || "",
           vin: vehicle.vin || "",
         });
         setImageUrls(vehicle.images || []);
@@ -374,26 +370,14 @@ export default function EditVehicle() {
                       className="bg-background/50 border-cyan/20 focus:border-cyan"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="doors">Doors *</Label>
+                  <div className="md:col-span-2">
+                    <Label htmlFor="location">Location *</Label>
                     <Input
-                      id="doors"
-                      name="doors"
-                      type="number"
-                      value={formData.doors}
+                      id="location"
+                      name="location"
+                      value={formData.location}
                       onChange={handleInputChange}
-                      className="bg-background/50 border-cyan/20 focus:border-cyan"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="seats">Seats *</Label>
-                    <Input
-                      id="seats"
-                      name="seats"
-                      type="number"
-                      value={formData.seats}
-                      onChange={handleInputChange}
+                      placeholder="e.g., Showroom A, Tokyo"
                       className="bg-background/50 border-cyan/20 focus:border-cyan"
                       required
                     />
@@ -463,17 +447,6 @@ export default function EditVehicle() {
                     </h2>
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
                       <div>
-                        <Label htmlFor="import_country">Import Country</Label>
-                        <Input
-                          id="import_country"
-                          name="import_country"
-                          value={formData.import_country}
-                          onChange={handleInputChange}
-                          placeholder="e.g., Japan"
-                          className="bg-background/50 border-cyan/20 focus:border-cyan"
-                        />
-                      </div>
-                      <div>
                         <Label htmlFor="import_status">Import Status</Label>
                         <Input
                           id="import_status"
@@ -485,12 +458,12 @@ export default function EditVehicle() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="estimated_arrival">Estimated Arrival</Label>
+                        <Label htmlFor="estimated_arrival_date">Estimated Arrival Date</Label>
                         <Input
-                          id="estimated_arrival"
-                          name="estimated_arrival"
+                          id="estimated_arrival_date"
+                          name="estimated_arrival_date"
                           type="date"
-                          value={formData.estimated_arrival ? formData.estimated_arrival.split('T')[0] : ''}
+                          value={formData.estimated_arrival_date ? formData.estimated_arrival_date.split('T')[0] : ''}
                           onChange={handleInputChange}
                           className="bg-background/50 border-cyan/20 focus:border-cyan"
                         />

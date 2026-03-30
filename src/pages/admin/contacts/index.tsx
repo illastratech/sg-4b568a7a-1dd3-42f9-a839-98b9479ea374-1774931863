@@ -197,7 +197,6 @@ export default function ContactsManagement() {
                         <div className="flex gap-4 text-sm text-muted-foreground mb-4">
                           <span>📧 {contact.email}</span>
                           {contact.phone && <span>📱 {contact.phone}</span>}
-                          <span>🏷️ {contact.inquiry_type}</span>
                         </div>
                         <div className="p-4 bg-background/50 rounded-lg border border-cyan/10">
                           <p className="text-sm whitespace-pre-wrap">{contact.message}</p>
