@@ -1,33 +1,47 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Car, ArrowLeft, Upload, Save } from "lucide-react";
+import { Car, ArrowLeft, Upload, Plus, X, LogOut } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { vehicleService } from "@/services/vehicleService";
+import { authService } from "@/services/authService";
 import { SEO } from "@/components/SEO";
-import { vehicleService, type VehicleInsert } from "@/services/vehicleService";
+import { AdminGuard } from "@/components/AdminGuard";
 
 export default function NewVehicle() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<VehicleInsert>({
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [newImageUrl, setNewImageUrl] = useState("");
+  
+  const [formData, setFormData] = useState({
     make: "",
     model: "",
     year: new Date().getFullYear(),
     price: 0,
     mileage: 0,
-    fuel_type: "Gasoline",
-    transmission: "Automatic",
-    body_type: "Sedan",
+    transmission: "automatic",
+    fuel_type: "gasoline",
+    body_type: "sedan",
     exterior_color: "",
     interior_color: "",
-    location: "",
-    condition: "New",
-    status: "available",
+    engine: "",
+    horsepower: 0,
+    doors: 4,
+    seats: 5,
+    condition: "excellent",
     category: "for_sale",
+    status: "available",
+    description: "",
+    features: [] as string[],
+    import_country: "",
+    import_status: "",
+    estimated_arrival: "",
+    vin: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,326 +49,481 @@ export default function NewVehicle() {
     setLoading(true);
 
     try {
-      await vehicleService.create(formData);
-      alert("Vehicle added successfully!");
+      const vehicleData = {
+        ...formData,
+        images: imageUrls,
+      };
+
+      await vehicleService.createVehicle(vehicleData);
       router.push("/admin/vehicles");
     } catch (error) {
       console.error("Error creating vehicle:", error);
-      alert("Failed to add vehicle. Please try again.");
+      alert("Failed to create vehicle. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleChange = (field: keyof VehicleInsert, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const addImageUrl = () => {
+    if (newImageUrl.trim()) {
+      setImageUrls([...imageUrls, newImageUrl.trim()]);
+      setNewImageUrl("");
+    }
+  };
+
+  const removeImageUrl = (index: number) => {
+    setImageUrls(imageUrls.filter((_, i) => i !== index));
+  };
+
+  const handleLogout = async () => {
+    try {
+      await authService.signOut();
+      router.push("/admin/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
-    <>
-      <SEO
-        title="Add New Vehicle - Admin"
-        description="Add a new vehicle to inventory"
-      />
-      <div className="min-h-screen bg-background">
-        <div className="tech-grid" />
+    <AdminGuard>
+      <SEO title="Add New Vehicle" />
+      <div className="min-h-screen bg-space">
+        <div className="grid-pattern" />
         
-        {/* Header */}
-        <div className="border-b border-border/50 backdrop-blur-xl bg-background/80">
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex items-center gap-3">
-              <Link href="/admin/vehicles">
-                <Button variant="ghost" size="icon">
-                  <ArrowLeft className="w-5 h-5" />
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="border-b border-cyan/20 bg-card/50 backdrop-blur-sm">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Link href="/admin/vehicles">
+                    <Button variant="outline" size="sm" className="border-cyan/30">
+                      <ArrowLeft className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <div className="p-2 bg-cyan/10 rounded-lg border border-cyan/30">
+                    <Car className="h-6 w-6 text-cyan" />
+                  </div>
+                  <div>
+                    <h1 className="text-2xl font-bold text-foreground">Add New Vehicle</h1>
+                    <p className="text-sm text-muted-foreground">Fill in the details below</p>
+                  </div>
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="border-destructive/30 text-destructive hover:bg-destructive/10"
+                  onClick={handleLogout}
+                >
+                  <LogOut className="h-4 w-4" />
                 </Button>
-              </Link>
-              <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
-                <Car className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-neon-colors">Add New Vehicle</h1>
-                <p className="text-xs text-muted-foreground">Fill in vehicle details</p>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="container mx-auto px-6 py-8 max-w-4xl relative z-10">
-          <form onSubmit={handleSubmit}>
-            <Card className="futuristic-card p-8 mb-6">
-              <h2 className="text-2xl font-bold text-neon-colors mb-6">Basic Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label htmlFor="make">Make *</Label>
-                  <Input
-                    id="make"
-                    required
-                    value={formData.make}
-                    onChange={(e) => handleChange("make", e.target.value)}
-                    className="futuristic-border"
-                    placeholder="e.g., Toyota, BMW, Tesla"
-                  />
+          <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <form onSubmit={handleSubmit}>
+              <Card className="p-8 bg-card/80 backdrop-blur-sm border-cyan/20 mb-6">
+                {/* Basic Information */}
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  <Car className="h-5 w-5 text-cyan" />
+                  Basic Information
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <Label htmlFor="make">Make *</Label>
+                    <Input
+                      id="make"
+                      name="make"
+                      value={formData.make}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Toyota"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="model">Model *</Label>
+                    <Input
+                      id="model"
+                      name="model"
+                      value={formData.model}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Camry"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="year">Year *</Label>
+                    <Input
+                      id="year"
+                      name="year"
+                      type="number"
+                      value={formData.year}
+                      onChange={handleInputChange}
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="price">Price ($) *</Label>
+                    <Input
+                      id="price"
+                      name="price"
+                      type="number"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      placeholder="e.g., 25000"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="mileage">Mileage (km) *</Label>
+                    <Input
+                      id="mileage"
+                      name="mileage"
+                      type="number"
+                      value={formData.mileage}
+                      onChange={handleInputChange}
+                      placeholder="e.g., 50000"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="vin">VIN</Label>
+                    <Input
+                      id="vin"
+                      name="vin"
+                      value={formData.vin}
+                      onChange={handleInputChange}
+                      placeholder="Vehicle Identification Number"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="model">Model *</Label>
-                  <Input
-                    id="model"
-                    required
-                    value={formData.model}
-                    onChange={(e) => handleChange("model", e.target.value)}
-                    className="futuristic-border"
-                    placeholder="e.g., Camry, M5, Model 3"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="year">Year *</Label>
-                  <Input
-                    id="year"
-                    type="number"
-                    required
-                    value={formData.year}
-                    onChange={(e) => handleChange("year", parseInt(e.target.value))}
-                    className="futuristic-border"
-                    min="1900"
-                    max={new Date().getFullYear() + 1}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="price">Price ($) *</Label>
-                  <Input
-                    id="price"
-                    type="number"
-                    required
-                    value={formData.price}
-                    onChange={(e) => handleChange("price", parseFloat(e.target.value))}
-                    className="futuristic-border"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="mileage">Mileage *</Label>
-                  <Input
-                    id="mileage"
-                    type="number"
-                    required
-                    value={formData.mileage}
-                    onChange={(e) => handleChange("mileage", parseInt(e.target.value))}
-                    className="futuristic-border"
-                    min="0"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="vin">VIN</Label>
-                  <Input
-                    id="vin"
-                    value={formData.vin || ""}
-                    onChange={(e) => handleChange("vin", e.target.value)}
-                    className="futuristic-border"
-                    placeholder="17-character VIN"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="stock_number">Stock Number</Label>
-                  <Input
-                    id="stock_number"
-                    value={formData.stock_number || ""}
-                    onChange={(e) => handleChange("stock_number", e.target.value)}
-                    className="futuristic-border"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="location">Location *</Label>
-                  <Input
-                    id="location"
-                    required
-                    value={formData.location}
-                    onChange={(e) => handleChange("location", e.target.value)}
-                    className="futuristic-border"
-                    placeholder="e.g., Los Angeles, CA"
-                  />
-                </div>
-              </div>
-            </Card>
 
-            <Card className="futuristic-card p-8 mb-6">
-              <h2 className="text-2xl font-bold text-neon-colors mb-6">Specifications</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label htmlFor="body_type">Body Type *</Label>
-                  <select
-                    id="body_type"
-                    required
-                    value={formData.body_type}
-                    onChange={(e) => handleChange("body_type", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="Sedan">Sedan</option>
-                    <option value="SUV">SUV</option>
-                    <option value="Coupe">Coupe</option>
-                    <option value="Truck">Truck</option>
-                    <option value="Van">Van</option>
-                    <option value="Convertible">Convertible</option>
-                    <option value="Wagon">Wagon</option>
-                  </select>
+                {/* Technical Specifications */}
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2 mt-8">
+                  <Car className="h-5 w-5 text-cyan" />
+                  Technical Specifications
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <Label htmlFor="transmission">Transmission *</Label>
+                    <select
+                      id="transmission"
+                      name="transmission"
+                      value={formData.transmission}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="automatic">Automatic</option>
+                      <option value="manual">Manual</option>
+                      <option value="cvt">CVT</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="fuel_type">Fuel Type *</Label>
+                    <select
+                      id="fuel_type"
+                      name="fuel_type"
+                      value={formData.fuel_type}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="gasoline">Gasoline</option>
+                      <option value="diesel">Diesel</option>
+                      <option value="electric">Electric</option>
+                      <option value="hybrid">Hybrid</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="body_type">Body Type *</Label>
+                    <select
+                      id="body_type"
+                      name="body_type"
+                      value={formData.body_type}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="sedan">Sedan</option>
+                      <option value="suv">SUV</option>
+                      <option value="coupe">Coupe</option>
+                      <option value="truck">Truck</option>
+                      <option value="hatchback">Hatchback</option>
+                      <option value="convertible">Convertible</option>
+                      <option value="wagon">Wagon</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="engine">Engine</Label>
+                    <Input
+                      id="engine"
+                      name="engine"
+                      value={formData.engine}
+                      onChange={handleInputChange}
+                      placeholder="e.g., 2.5L V6"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="horsepower">Horsepower</Label>
+                    <Input
+                      id="horsepower"
+                      name="horsepower"
+                      type="number"
+                      value={formData.horsepower}
+                      onChange={handleInputChange}
+                      placeholder="e.g., 300"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="exterior_color">Exterior Color *</Label>
+                    <Input
+                      id="exterior_color"
+                      name="exterior_color"
+                      value={formData.exterior_color}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Black"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="interior_color">Interior Color</Label>
+                    <Input
+                      id="interior_color"
+                      name="interior_color"
+                      value={formData.interior_color}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Beige"
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="doors">Doors *</Label>
+                    <Input
+                      id="doors"
+                      name="doors"
+                      type="number"
+                      value={formData.doors}
+                      onChange={handleInputChange}
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="seats">Seats *</Label>
+                    <Input
+                      id="seats"
+                      name="seats"
+                      type="number"
+                      value={formData.seats}
+                      onChange={handleInputChange}
+                      className="bg-background/50 border-cyan/20 focus:border-cyan"
+                      required
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="fuel_type">Fuel Type *</Label>
-                  <select
-                    id="fuel_type"
-                    required
-                    value={formData.fuel_type}
-                    onChange={(e) => handleChange("fuel_type", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="Gasoline">Gasoline</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="Electric">Electric</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="Plug-in Hybrid">Plug-in Hybrid</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="transmission">Transmission *</Label>
-                  <select
-                    id="transmission"
-                    required
-                    value={formData.transmission}
-                    onChange={(e) => handleChange("transmission", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="Automatic">Automatic</option>
-                    <option value="Manual">Manual</option>
-                    <option value="CVT">CVT</option>
-                    <option value="Semi-Automatic">Semi-Automatic</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="condition">Condition *</Label>
-                  <select
-                    id="condition"
-                    required
-                    value={formData.condition}
-                    onChange={(e) => handleChange("condition", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="New">New</option>
-                    <option value="Used">Used</option>
-                    <option value="Certified Pre-Owned">Certified Pre-Owned</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="exterior_color">Exterior Color *</Label>
-                  <Input
-                    id="exterior_color"
-                    required
-                    value={formData.exterior_color}
-                    onChange={(e) => handleChange("exterior_color", e.target.value)}
-                    className="futuristic-border"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="interior_color">Interior Color *</Label>
-                  <Input
-                    id="interior_color"
-                    required
-                    value={formData.interior_color}
-                    onChange={(e) => handleChange("interior_color", e.target.value)}
-                    className="futuristic-border"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="engine">Engine</Label>
-                  <Input
-                    id="engine"
-                    value={formData.engine || ""}
-                    onChange={(e) => handleChange("engine", e.target.value)}
-                    className="futuristic-border"
-                    placeholder="e.g., 2.0L Turbo I4"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="horsepower">Horsepower</Label>
-                  <Input
-                    id="horsepower"
-                    type="number"
-                    value={formData.horsepower || ""}
-                    onChange={(e) => handleChange("horsepower", parseInt(e.target.value))}
-                    className="futuristic-border"
-                    min="0"
-                  />
-                </div>
-              </div>
-            </Card>
 
-            <Card className="futuristic-card p-8 mb-6">
-              <h2 className="text-2xl font-bold text-neon-colors mb-6">Sales Information</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <Label htmlFor="category">Category *</Label>
-                  <select
-                    id="category"
-                    required
-                    value={formData.category}
-                    onChange={(e) => handleChange("category", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="for_sale">For Sale</option>
-                    <option value="import_service">Import Service</option>
-                  </select>
+                {/* Status & Category */}
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2 mt-8">
+                  <Car className="h-5 w-5 text-cyan" />
+                  Status & Category
+                </h2>
+                <div className="grid md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <Label htmlFor="condition">Condition *</Label>
+                    <select
+                      id="condition"
+                      name="condition"
+                      value={formData.condition}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="excellent">Excellent</option>
+                      <option value="good">Good</option>
+                      <option value="fair">Fair</option>
+                      <option value="needs_work">Needs Work</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="category">Category *</Label>
+                    <select
+                      id="category"
+                      name="category"
+                      value={formData.category}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="for_sale">For Sale</option>
+                      <option value="import_service">Import Service</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="status">Status *</Label>
+                    <select
+                      id="status"
+                      name="status"
+                      value={formData.status}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 bg-background/50 border border-cyan/20 rounded-md focus:border-cyan focus:outline-none"
+                      required
+                    >
+                      <option value="available">Available</option>
+                      <option value="reserved">Reserved</option>
+                      <option value="sold">Sold</option>
+                      <option value="importing">Importing</option>
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="status">Status *</Label>
-                  <select
-                    id="status"
-                    required
-                    value={formData.status}
-                    onChange={(e) => handleChange("status", e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="available">Available</option>
-                    <option value="reserved">Reserved</option>
-                    <option value="sold">Sold</option>
-                    <option value="importing">Importing</option>
-                  </select>
-                </div>
-              </div>
-            </Card>
 
-            <Card className="futuristic-card p-8 mb-6">
-              <h2 className="text-2xl font-bold text-neon-colors mb-6">Additional Details</h2>
-              <div className="space-y-6">
-                <div>
-                  <Label htmlFor="description">Description</Label>
+                {/* Import Information (if applicable) */}
+                {formData.category === "import_service" && (
+                  <>
+                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2 mt-8">
+                      <Car className="h-5 w-5 text-cyan" />
+                      Import Information
+                    </h2>
+                    <div className="grid md:grid-cols-2 gap-6 mb-6">
+                      <div>
+                        <Label htmlFor="import_country">Import Country</Label>
+                        <Input
+                          id="import_country"
+                          name="import_country"
+                          value={formData.import_country}
+                          onChange={handleInputChange}
+                          placeholder="e.g., Japan"
+                          className="bg-background/50 border-cyan/20 focus:border-cyan"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="import_status">Import Status</Label>
+                        <Input
+                          id="import_status"
+                          name="import_status"
+                          value={formData.import_status}
+                          onChange={handleInputChange}
+                          placeholder="e.g., In Transit"
+                          className="bg-background/50 border-cyan/20 focus:border-cyan"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="estimated_arrival">Estimated Arrival</Label>
+                        <Input
+                          id="estimated_arrival"
+                          name="estimated_arrival"
+                          type="date"
+                          value={formData.estimated_arrival}
+                          onChange={handleInputChange}
+                          className="bg-background/50 border-cyan/20 focus:border-cyan"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {/* Description */}
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2 mt-8">
+                  <Car className="h-5 w-5 text-cyan" />
+                  Description
+                </h2>
+                <div className="mb-6">
                   <Textarea
                     id="description"
-                    value={formData.description || ""}
-                    onChange={(e) => handleChange("description", e.target.value)}
-                    className="futuristic-border min-h-32"
-                    placeholder="Detailed vehicle description..."
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    placeholder="Enter vehicle description..."
+                    rows={4}
+                    className="bg-background/50 border-cyan/20 focus:border-cyan"
                   />
                 </div>
-              </div>
-            </Card>
 
-            <div className="flex items-center gap-4">
-              <Button
-                type="submit"
-                disabled={loading}
-                className="futuristic-button"
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {loading ? "Saving..." : "Save Vehicle"}
-              </Button>
-              <Link href="/admin/vehicles">
-                <Button type="button" variant="outline" className="futuristic-border">
-                  Cancel
+                {/* Images */}
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2 mt-8">
+                  <Upload className="h-5 w-5 text-cyan" />
+                  Images
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <Input
+                      value={newImageUrl}
+                      onChange={(e) => setNewImageUrl(e.target.value)}
+                      placeholder="Enter image URL (e.g., https://example.com/car.jpg)"
+                      className="flex-1 bg-background/50 border-cyan/20 focus:border-cyan"
+                    />
+                    <Button
+                      type="button"
+                      onClick={addImageUrl}
+                      className="bg-cyan hover:bg-cyan-light text-space"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  
+                  {imageUrls.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {imageUrls.map((url, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={url}
+                            alt={`Vehicle ${index + 1}`}
+                            className="w-full h-32 object-cover rounded-lg border border-cyan/20"
+                          />
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="destructive"
+                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => removeImageUrl(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Card>
+
+              {/* Submit Button */}
+              <div className="flex justify-end gap-4">
+                <Link href="/admin/vehicles">
+                  <Button type="button" variant="outline" className="border-cyan/30">
+                    Cancel
+                  </Button>
+                </Link>
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-cyan hover:bg-cyan-light text-space"
+                >
+                  {loading ? "Saving..." : "Save Vehicle"}
                 </Button>
-              </Link>
-            </div>
-          </form>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </>
+    </AdminGuard>
   );
 }
