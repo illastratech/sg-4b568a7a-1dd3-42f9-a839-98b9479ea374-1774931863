@@ -1,181 +1,169 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { User, Session } from "@supabase/supabase-js";
 
-export interface AuthUser {
-  id: string;
-  email: string;
-  user_metadata?: any;
-  created_at?: string;
-}
-
-export interface AuthError {
-  message: string;
-  code?: string;
-}
-
-// Dynamic URL Helper
-const getURL = () => {
-  let url = process?.env?.NEXT_PUBLIC_VERCEL_URL ?? 
-           process?.env?.NEXT_PUBLIC_SITE_URL ?? 
-           'http://localhost:3000'
-  
-  // Handle undefined or null url
-  if (!url) {
-    url = 'http://localhost:3000';
+/**
+ * Dynamic redirect URL helper for OAuth flows
+ * Handles both development and production environments
+ */
+const getRedirectUrl = () => {
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}/auth/callback`;
   }
-  
-  // Ensure url has protocol
-  url = url.startsWith('http') ? url : `https://${url}`
-  
-  // Ensure url ends with slash
-  url = url.endsWith('/') ? url : `${url}/`
-  
-  return url
-}
+  return process.env.NEXT_PUBLIC_SITE_URL 
+    ? `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+    : "http://localhost:3000/auth/callback";
+};
 
 export const authService = {
-  // Get current user
-  async getCurrentUser(): Promise<AuthUser | null> {
-    const { data: { user } } = await supabase.auth.getUser();
-    return user ? {
-      id: user.id,
-      email: user.email || "",
-      user_metadata: user.user_metadata,
-      created_at: user.created_at
-    } : null;
-  },
+  /**
+   * Sign up a new admin user with email and password
+   */
+  async signUpAdmin(email: string, password: string, fullName?: string) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+        },
+      },
+    });
 
-  // Get current session
-  async getCurrentSession(): Promise<Session | null> {
-    const { data: { session } } = await supabase.auth.getSession();
-    return session;
-  },
-
-  // Sign up with email and password
-  async signUp(email: string, password: string): Promise<{ user: AuthUser | null; error: AuthError | null }> {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${getURL()}auth/confirm-email`
-        }
-      });
-
-      if (error) {
-        return { user: null, error: { message: error.message, code: error.status?.toString() } };
-      }
-
-      const authUser = data.user ? {
-        id: data.user.id,
-        email: data.user.email || "",
-        user_metadata: data.user.user_metadata,
-        created_at: data.user.created_at
-      } : null;
-
-      return { user: authUser, error: null };
-    } catch (error) {
-      return { 
-        user: null, 
-        error: { message: "An unexpected error occurred during sign up" } 
-      };
+    if (error) {
+      console.error("Sign up error:", error);
+      throw error;
     }
-  },
 
-  // Sign in with email and password
-  async signIn(email: string, password: string): Promise<{ user: AuthUser | null; error: AuthError | null }> {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    // Create admin user record if signup successful
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from("admin_users")
+        .insert({
+          id: data.user.id,
+          email: data.user.email!,
+          full_name: fullName,
+          role: "admin",
+        });
 
-      if (error) {
-        return { user: null, error: { message: error.message, code: error.status?.toString() } };
+      if (profileError) {
+        console.error("Admin profile creation error:", profileError);
       }
-
-      const authUser = data.user ? {
-        id: data.user.id,
-        email: data.user.email || "",
-        user_metadata: data.user.user_metadata,
-        created_at: data.user.created_at
-      } : null;
-
-      return { user: authUser, error: null };
-    } catch (error) {
-      return { 
-        user: null, 
-        error: { message: "An unexpected error occurred during sign in" } 
-      };
     }
+
+    return { data, error };
   },
 
-  // Sign out
-  async signOut(): Promise<{ error: AuthError | null }> {
-    try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        return { error: { message: error.message } };
-      }
+  /**
+   * Sign in admin user with email and password
+   */
+  async signInWithPassword(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      return { error: null };
-    } catch (error) {
-      return { 
-        error: { message: "An unexpected error occurred during sign out" } 
-      };
+    if (error) {
+      console.error("Sign in error:", error);
+      throw error;
     }
+
+    // Update last login
+    if (data.user) {
+      await supabase
+        .from("admin_users")
+        .update({ last_login: new Date().toISOString() })
+        .eq("id", data.user.id);
+    }
+
+    return { data, error };
   },
 
-  // Reset password
-  async resetPassword(email: string): Promise<{ error: AuthError | null }> {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${getURL()}auth/reset-password`,
-      });
-
-      if (error) {
-        return { error: { message: error.message } };
-      }
-
-      return { error: null };
-    } catch (error) {
-      return { 
-        error: { message: "An unexpected error occurred during password reset" } 
-      };
+  /**
+   * Sign out the current user
+   */
+  async signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Sign out error:", error);
+      throw error;
     }
+    return { error };
   },
 
-  // Confirm email (REQUIRED)
-  async confirmEmail(token: string, type: 'signup' | 'recovery' | 'email_change' = 'signup'): Promise<{ user: AuthUser | null; error: AuthError | null }> {
-    try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        token_hash: token,
-        type: type
-      });
-
-      if (error) {
-        return { user: null, error: { message: error.message, code: error.status?.toString() } };
-      }
-
-      const authUser = data.user ? {
-        id: data.user.id,
-        email: data.user.email || "",
-        user_metadata: data.user.user_metadata,
-        created_at: data.user.created_at
-      } : null;
-
-      return { user: authUser, error: null };
-    } catch (error) {
-      return { 
-        user: null, 
-        error: { message: "An unexpected error occurred during email confirmation" } 
-      };
+  /**
+   * Get the current session
+   */
+  async getSession() {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error("Get session error:", error);
     }
+    return { session, error };
   },
 
-  // Listen to auth state changes
-  onAuthStateChange(callback: (event: string, session: Session | null) => void) {
+  /**
+   * Get the current user
+   */
+  async getCurrentUser() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error("Get user error:", error);
+    }
+    return { user, error };
+  },
+
+  /**
+   * Check if user is an admin
+   */
+  async isAdmin() {
+    const { user } = await this.getCurrentUser();
+    if (!user) return false;
+
+    const { data, error } = await supabase
+      .from("admin_users")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (error || !data) return false;
+    return data.role === "admin" || data.role === "super_admin";
+  },
+
+  /**
+   * Reset password for email
+   */
+  async resetPassword(email: string) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${getRedirectUrl()}/reset-password`,
+    });
+
+    if (error) {
+      console.error("Reset password error:", error);
+      throw error;
+    }
+
+    return { data, error };
+  },
+
+  /**
+   * Update password
+   */
+  async updatePassword(newPassword: string) {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+
+    if (error) {
+      console.error("Update password error:", error);
+      throw error;
+    }
+
+    return { data, error };
+  },
+
+  /**
+   * Listen to auth state changes
+   */
+  onAuthStateChange(callback: (event: string, session: any) => void) {
     return supabase.auth.onAuthStateChange(callback);
-  }
+  },
 };
