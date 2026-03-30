@@ -74,6 +74,23 @@ export const contactService = {
     return data;
   },
 
+  // Delete submission
+  async delete(id: string) {
+    const { error } = await supabase
+      .from("contact_submissions")
+      .delete()
+      .eq("id", id);
+
+    console.log("Delete submission:", { error });
+
+    if (error) {
+      console.error("Error deleting submission:", error);
+      throw error;
+    }
+
+    return true;
+  },
+
   // Get submission statistics
   async getStats() {
     const { data: submissions, error } = await supabase
