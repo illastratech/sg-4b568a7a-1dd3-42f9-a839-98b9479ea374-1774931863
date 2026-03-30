@@ -1,147 +1,176 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Car, Plus, Settings, LogOut, BarChart3, Package, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Car, Plus, Settings, TrendingUp, Package, MessageSquare, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
+import { vehicleService } from "@/services/vehicleService";
+import { contactService } from "@/services/contactService";
 
 export default function AdminDashboard() {
-  const [stats] = useState({
-    totalVehicles: 47,
-    forSale: 28,
-    importService: 19,
-    pendingInquiries: 12
+  const [stats, setStats] = useState({
+    vehicles: { total: 0, forSale: 0, importing: 0, sold: 0 },
+    contacts: { total: 0, new: 0, inProgress: 0, resolved: 0 },
   });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  const loadStats = async () => {
+    try {
+      const [vehicleStats, contactStats] = await Promise.all([
+        vehicleService.getStats(),
+        contactService.getStats(),
+      ]);
+      
+      setStats({
+        vehicles: vehicleStats,
+        contacts: contactStats,
+      });
+    } catch (error) {
+      console.error("Error loading stats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const statCards = [
+    {
+      title: "Total Vehicles",
+      value: stats.vehicles.total,
+      icon: Package,
+      gradient: "from-cyan-500 to-blue-600",
+    },
+    {
+      title: "For Sale",
+      value: stats.vehicles.forSale,
+      icon: Car,
+      gradient: "from-green-500 to-emerald-600",
+    },
+    {
+      title: "Importing",
+      value: stats.vehicles.importing,
+      icon: TrendingUp,
+      gradient: "from-orange-500 to-amber-600",
+    },
+    {
+      title: "Contact Inquiries",
+      value: stats.contacts.new,
+      icon: MessageSquare,
+      gradient: "from-purple-500 to-pink-600",
+    },
+  ];
 
   return (
     <>
-      <SEO 
-        title="Admin Dashboard - AutoNexus"
-        description="Manage your automotive inventory and services"
+      <SEO
+        title="Admin Dashboard - Vehicle Management"
+        description="Manage vehicles, inventory, and customer inquiries"
       />
       <div className="min-h-screen bg-background">
-        <nav className="border-b border-border glass-effect">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="tech-grid" />
+        
+        {/* Header */}
+        <div className="border-b border-border/50 backdrop-blur-xl bg-background/80">
+          <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <Link href="/" className="flex items-center gap-3">
-                <Car className="h-8 w-8 text-primary" />
-                <span className="font-orbitron text-2xl font-bold">
-                  AUTO<span className="text-primary">NEXUS</span>
-                  <span className="text-sm text-muted-foreground ml-2">Admin</span>
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
+                  <Settings className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-neon-colors">Admin Panel</h1>
+                  <p className="text-xs text-muted-foreground">Vehicle & Service Management</p>
+                </div>
+              </div>
+              <Link href="/">
+                <Button variant="outline" className="futuristic-border">
+                  Back to Site
+                </Button>
               </Link>
-              
-              <Button variant="outline" size="sm" className="gap-2">
-                <LogOut className="h-4 w-4" />
-                Logout
-              </Button>
             </div>
           </div>
-        </nav>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="mb-12">
-            <h1 className="font-orbitron text-4xl font-bold mb-2">
-              ADMIN <span className="text-primary text-glow">DASHBOARD</span>
-            </h1>
-            <p className="text-muted-foreground">Manage your inventory and services</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-lg bg-primary/10">
-                  <Package className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Vehicles</p>
-                  <p className="text-3xl font-orbitron font-bold text-primary">{stats.totalVehicles}</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-lg bg-accent/10">
-                  <Car className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">For Sale</p>
-                  <p className="text-3xl font-orbitron font-bold text-accent">{stats.forSale}</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-lg bg-primary/10">
-                  <BarChart3 className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Import Service</p>
-                  <p className="text-3xl font-orbitron font-bold text-primary">{stats.importService}</p>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4">
-                <div className="p-3 rounded-lg bg-accent/10">
-                  <FileText className="h-6 w-6 text-accent" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Inquiries</p>
-                  <p className="text-3xl font-orbitron font-bold text-accent">{stats.pendingInquiries}</p>
-                </div>
-              </div>
-            </Card>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="/admin/vehicles">
-              <Card className="group p-8 glass-effect border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-4 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                    <Car className="h-8 w-8 text-primary" />
+        <div className="container mx-auto px-6 py-8 relative z-10">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {statCards.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <Card key={index} className="futuristic-card p-6 hover-lift">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`p-3 rounded-lg bg-gradient-to-br ${stat.gradient} glow-effect`}>
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
                   </div>
-                  <h3 className="font-orbitron text-xl font-bold">Vehicle Management</h3>
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  Add, edit, and manage your vehicle inventory
-                </p>
-                <Button className="w-full bg-primary hover:bg-primary/90 glow-cyan">
-                  Manage Vehicles
-                </Button>
-              </Card>
-            </Link>
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">{stat.title}</p>
+                    <p className="text-3xl font-bold text-neon-colors">
+                      {loading ? "..." : stat.value}
+                    </p>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
 
-            <Card className="group p-8 glass-effect border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-4 rounded-lg bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                  <Settings className="h-8 w-8 text-accent" />
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="futuristic-card p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
+                  <Car className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-orbitron text-xl font-bold">Services</h3>
+                <div>
+                  <h2 className="text-2xl font-bold text-neon-colors">Vehicle Management</h2>
+                  <p className="text-muted-foreground">Add, edit, and manage your inventory</p>
+                </div>
               </div>
-              <p className="text-muted-foreground mb-4">
-                Configure services and pricing options
-              </p>
-              <Button variant="outline" className="w-full border-accent/50 hover:bg-accent/10">
-                Manage Services
-              </Button>
+              <div className="space-y-3">
+                <Link href="/admin/vehicles/new">
+                  <Button className="w-full futuristic-button group">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add New Vehicle
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+                <Link href="/admin/vehicles">
+                  <Button variant="outline" className="w-full futuristic-border">
+                    View All Vehicles
+                  </Button>
+                </Link>
+              </div>
             </Card>
 
-            <Card className="group p-8 glass-effect border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 cursor-pointer">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-4 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <FileText className="h-8 w-8 text-primary" />
+            <Card className="futuristic-card p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 glow-effect">
+                  <MessageSquare className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-orbitron text-xl font-bold">Inquiries</h3>
+                <div>
+                  <h2 className="text-2xl font-bold text-neon-colors">Contact Inquiries</h2>
+                  <p className="text-muted-foreground">Manage customer messages</p>
+                </div>
               </div>
-              <p className="text-muted-foreground mb-4">
-                View and respond to customer inquiries
-              </p>
-              <Button variant="outline" className="w-full border-primary/50 hover:bg-primary/10">
-                View Inquiries
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="text-center p-3 rounded-lg bg-primary/10 border border-primary/20">
+                  <p className="text-2xl font-bold text-primary">{stats.contacts.new}</p>
+                  <p className="text-xs text-muted-foreground">New</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                  <p className="text-2xl font-bold text-orange-500">{stats.contacts.inProgress}</p>
+                  <p className="text-xs text-muted-foreground">In Progress</p>
+                </div>
+                <div className="text-center p-3 rounded-lg bg-green-500/10 border border-green-500/20">
+                  <p className="text-2xl font-bold text-green-500">{stats.contacts.resolved}</p>
+                  <p className="text-xs text-muted-foreground">Resolved</p>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full futuristic-border">
+                View Inquiries (Coming Soon)
               </Button>
             </Card>
           </div>

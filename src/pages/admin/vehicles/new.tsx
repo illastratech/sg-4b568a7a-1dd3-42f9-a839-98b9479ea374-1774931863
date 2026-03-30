@@ -1,240 +1,358 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Car, ArrowLeft, Upload, Save } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { SEO } from "@/components/SEO";
+import { vehicleService, type VehicleInsert } from "@/services/vehicleService";
 
 export default function NewVehicle() {
-  const [formData, setFormData] = useState({
-    brand: "",
-    name: "",
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<VehicleInsert>({
+    make: "",
+    model: "",
     year: new Date().getFullYear(),
-    price: "",
-    mileage: "",
+    price: 0,
+    mileage: 0,
+    fuel_type: "Gasoline",
+    transmission: "Automatic",
+    body_type: "Sedan",
+    exterior_color: "",
+    interior_color: "",
     location: "",
-    type: "sale",
-    status: "active",
-    description: "",
-    specifications: "",
-    image: ""
+    condition: "New",
+    status: "available",
+    category: "for_sale",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Vehicle data:", formData);
-    // This is where you would connect to Supabase or your backend
-    alert("Vehicle added successfully! (Demo mode - connect Supabase to persist data)");
+    setLoading(true);
+
+    try {
+      await vehicleService.create(formData);
+      alert("Vehicle added successfully!");
+      router.push("/admin/vehicles");
+    } catch (error) {
+      console.error("Error creating vehicle:", error);
+      alert("Failed to add vehicle. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (field: keyof VehicleInsert, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
     <>
-      <SEO 
-        title="Add New Vehicle - AutoNexus Admin"
-        description="Add a new vehicle to your inventory"
+      <SEO
+        title="Add New Vehicle - Admin"
+        description="Add a new vehicle to inventory"
       />
       <div className="min-h-screen bg-background">
-        <nav className="border-b border-border glass-effect">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/admin" className="flex items-center gap-3">
-                <Car className="h-8 w-8 text-primary" />
-                <span className="font-orbitron text-2xl font-bold">
-                  AUTO<span className="text-primary">NEXUS</span>
-                  <span className="text-sm text-muted-foreground ml-2">Admin</span>
-                </span>
-              </Link>
-              
+        <div className="tech-grid" />
+        
+        {/* Header */}
+        <div className="border-b border-border/50 backdrop-blur-xl bg-background/80">
+          <div className="container mx-auto px-6 py-4">
+            <div className="flex items-center gap-3">
               <Link href="/admin/vehicles">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Vehicles
+                <Button variant="ghost" size="icon">
+                  <ArrowLeft className="w-5 h-5" />
                 </Button>
               </Link>
+              <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
+                <Car className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-neon-colors">Add New Vehicle</h1>
+                <p className="text-xs text-muted-foreground">Fill in vehicle details</p>
+              </div>
             </div>
           </div>
-        </nav>
+        </div>
 
-        <div className="max-w-4xl mx-auto px-6 py-12">
-          <div className="mb-8">
-            <h1 className="font-orbitron text-4xl font-bold mb-2">
-              ADD NEW <span className="text-primary text-glow">VEHICLE</span>
-            </h1>
-            <p className="text-muted-foreground">Fill in the details to add a vehicle to your inventory</p>
-          </div>
-
+        <div className="container mx-auto px-6 py-8 max-w-4xl relative z-10">
           <form onSubmit={handleSubmit}>
-            <Card className="p-8 glass-effect border-border mb-6">
-              <h2 className="font-orbitron text-xl font-bold mb-6 text-primary">Basic Information</h2>
-              
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <Card className="futuristic-card p-8 mb-6">
+              <h2 className="text-2xl font-bold text-neon-colors mb-6">Basic Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <Label htmlFor="brand" className="mb-2 block">Brand *</Label>
+                  <Label htmlFor="make">Make *</Label>
                   <Input
-                    id="brand"
-                    placeholder="e.g., Tesla, Porsche, Lamborghini"
-                    className="bg-secondary border-border"
-                    value={formData.brand}
-                    onChange={(e) => setFormData({...formData, brand: e.target.value})}
+                    id="make"
                     required
+                    value={formData.make}
+                    onChange={(e) => handleChange("make", e.target.value)}
+                    className="futuristic-border"
+                    placeholder="e.g., Toyota, BMW, Tesla"
                   />
                 </div>
-                
                 <div>
-                  <Label htmlFor="name" className="mb-2 block">Model Name *</Label>
+                  <Label htmlFor="model">Model *</Label>
                   <Input
-                    id="name"
-                    placeholder="e.g., Model S Plaid, 911 Turbo S"
-                    className="bg-secondary border-border"
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    id="model"
                     required
+                    value={formData.model}
+                    onChange={(e) => handleChange("model", e.target.value)}
+                    className="futuristic-border"
+                    placeholder="e.g., Camry, M5, Model 3"
                   />
                 </div>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div>
-                  <Label htmlFor="year" className="mb-2 block">Year *</Label>
+                  <Label htmlFor="year">Year *</Label>
                   <Input
                     id="year"
                     type="number"
-                    placeholder="2024"
-                    className="bg-secondary border-border"
-                    value={formData.year}
-                    onChange={(e) => setFormData({...formData, year: parseInt(e.target.value)})}
                     required
+                    value={formData.year}
+                    onChange={(e) => handleChange("year", parseInt(e.target.value))}
+                    className="futuristic-border"
+                    min="1900"
+                    max={new Date().getFullYear() + 1}
                   />
                 </div>
-                
                 <div>
-                  <Label htmlFor="price" className="mb-2 block">Price (USD) *</Label>
+                  <Label htmlFor="price">Price ($) *</Label>
                   <Input
                     id="price"
                     type="number"
-                    placeholder="129990"
-                    className="bg-secondary border-border"
-                    value={formData.price}
-                    onChange={(e) => setFormData({...formData, price: e.target.value})}
                     required
+                    value={formData.price}
+                    onChange={(e) => handleChange("price", parseFloat(e.target.value))}
+                    className="futuristic-border"
+                    min="0"
+                    step="0.01"
                   />
                 </div>
-                
                 <div>
-                  <Label htmlFor="mileage" className="mb-2 block">Mileage *</Label>
+                  <Label htmlFor="mileage">Mileage *</Label>
                   <Input
                     id="mileage"
                     type="number"
-                    placeholder="1200"
-                    className="bg-secondary border-border"
-                    value={formData.mileage}
-                    onChange={(e) => setFormData({...formData, mileage: e.target.value})}
                     required
+                    value={formData.mileage}
+                    onChange={(e) => handleChange("mileage", parseInt(e.target.value))}
+                    className="futuristic-border"
+                    min="0"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="vin">VIN</Label>
+                  <Input
+                    id="vin"
+                    value={formData.vin || ""}
+                    onChange={(e) => handleChange("vin", e.target.value)}
+                    className="futuristic-border"
+                    placeholder="17-character VIN"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="stock_number">Stock Number</Label>
+                  <Input
+                    id="stock_number"
+                    value={formData.stock_number || ""}
+                    onChange={(e) => handleChange("stock_number", e.target.value)}
+                    className="futuristic-border"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="location">Location *</Label>
+                  <Input
+                    id="location"
+                    required
+                    value={formData.location}
+                    onChange={(e) => handleChange("location", e.target.value)}
+                    className="futuristic-border"
+                    placeholder="e.g., Los Angeles, CA"
                   />
                 </div>
               </div>
+            </Card>
 
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <Card className="futuristic-card p-8 mb-6">
+              <h2 className="text-2xl font-bold text-neon-colors mb-6">Specifications</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <Label htmlFor="location" className="mb-2 block">Location *</Label>
-                  <Input
-                    id="location"
-                    placeholder="Dubai, UAE"
-                    className="bg-secondary border-border"
-                    value={formData.location}
-                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  <Label htmlFor="body_type">Body Type *</Label>
+                  <select
+                    id="body_type"
                     required
+                    value={formData.body_type}
+                    onChange={(e) => handleChange("body_type", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Coupe">Coupe</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Van">Van</option>
+                    <option value="Convertible">Convertible</option>
+                    <option value="Wagon">Wagon</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="fuel_type">Fuel Type *</Label>
+                  <select
+                    id="fuel_type"
+                    required
+                    value={formData.fuel_type}
+                    onChange={(e) => handleChange("fuel_type", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Plug-in Hybrid">Plug-in Hybrid</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="transmission">Transmission *</Label>
+                  <select
+                    id="transmission"
+                    required
+                    value={formData.transmission}
+                    onChange={(e) => handleChange("transmission", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                    <option value="CVT">CVT</option>
+                    <option value="Semi-Automatic">Semi-Automatic</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="condition">Condition *</Label>
+                  <select
+                    id="condition"
+                    required
+                    value={formData.condition}
+                    onChange={(e) => handleChange("condition", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                    <option value="Certified Pre-Owned">Certified Pre-Owned</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="exterior_color">Exterior Color *</Label>
+                  <Input
+                    id="exterior_color"
+                    required
+                    value={formData.exterior_color}
+                    onChange={(e) => handleChange("exterior_color", e.target.value)}
+                    className="futuristic-border"
                   />
                 </div>
-                
                 <div>
-                  <Label htmlFor="type" className="mb-2 block">Type *</Label>
+                  <Label htmlFor="interior_color">Interior Color *</Label>
+                  <Input
+                    id="interior_color"
+                    required
+                    value={formData.interior_color}
+                    onChange={(e) => handleChange("interior_color", e.target.value)}
+                    className="futuristic-border"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="engine">Engine</Label>
+                  <Input
+                    id="engine"
+                    value={formData.engine || ""}
+                    onChange={(e) => handleChange("engine", e.target.value)}
+                    className="futuristic-border"
+                    placeholder="e.g., 2.0L Turbo I4"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="horsepower">Horsepower</Label>
+                  <Input
+                    id="horsepower"
+                    type="number"
+                    value={formData.horsepower || ""}
+                    onChange={(e) => handleChange("horsepower", parseInt(e.target.value))}
+                    className="futuristic-border"
+                    min="0"
+                  />
+                </div>
+              </div>
+            </Card>
+
+            <Card className="futuristic-card p-8 mb-6">
+              <h2 className="text-2xl font-bold text-neon-colors mb-6">Sales Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="category">Category *</Label>
                   <select
-                    id="type"
-                    className="w-full h-10 px-3 rounded-md bg-secondary border border-border text-foreground"
-                    value={formData.type}
-                    onChange={(e) => setFormData({...formData, type: e.target.value})}
+                    id="category"
+                    required
+                    value={formData.category}
+                    onChange={(e) => handleChange("category", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   >
-                    <option value="sale">For Sale</option>
-                    <option value="import">Import Service</option>
+                    <option value="for_sale">For Sale</option>
+                    <option value="import_service">Import Service</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="status">Status *</Label>
+                  <select
+                    id="status"
+                    required
+                    value={formData.status}
+                    onChange={(e) => handleChange("status", e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="available">Available</option>
+                    <option value="reserved">Reserved</option>
+                    <option value="sold">Sold</option>
+                    <option value="importing">Importing</option>
                   </select>
                 </div>
               </div>
+            </Card>
 
-              <div className="mb-6">
-                <Label htmlFor="description" className="mb-2 block">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Detailed description of the vehicle..."
-                  className="bg-secondary border-border min-h-32"
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="specifications" className="mb-2 block">Technical Specifications</Label>
-                <Textarea
-                  id="specifications"
-                  placeholder="Engine, transmission, features..."
-                  className="bg-secondary border-border min-h-24"
-                  value={formData.specifications}
-                  onChange={(e) => setFormData({...formData, specifications: e.target.value})}
-                />
+            <Card className="futuristic-card p-8 mb-6">
+              <h2 className="text-2xl font-bold text-neon-colors mb-6">Additional Details</h2>
+              <div className="space-y-6">
+                <div>
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description || ""}
+                    onChange={(e) => handleChange("description", e.target.value)}
+                    className="futuristic-border min-h-32"
+                    placeholder="Detailed vehicle description..."
+                  />
+                </div>
               </div>
             </Card>
 
-            <Card className="p-8 glass-effect border-border mb-6">
-              <h2 className="font-orbitron text-xl font-bold mb-6 text-primary">Vehicle Image</h2>
-              
-              <div className="mb-4">
-                <Label htmlFor="image" className="mb-2 block">Image URL</Label>
-                <Input
-                  id="image"
-                  type="url"
-                  placeholder="https://images.unsplash.com/photo-..."
-                  className="bg-secondary border-border"
-                  value={formData.image}
-                  onChange={(e) => setFormData({...formData, image: e.target.value})}
-                />
-                <p className="text-xs text-muted-foreground mt-2">
-                  Enter an image URL or use the upload feature (requires backend setup)
-                </p>
-              </div>
-
-              <Button type="button" variant="outline" className="gap-2 border-primary/50 hover:bg-primary/10">
-                <Upload className="h-4 w-4" />
-                Upload Image (Coming Soon)
+            <div className="flex items-center gap-4">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="futuristic-button"
+              >
+                <Save className="w-4 h-4 mr-2" />
+                {loading ? "Saving..." : "Save Vehicle"}
               </Button>
-            </Card>
-
-            <div className="flex gap-4">
-              <Button type="submit" className="flex-1 bg-primary hover:bg-primary/90 glow-cyan gap-2">
-                <Save className="h-5 w-5" />
-                Save Vehicle
-              </Button>
-              <Link href="/admin/vehicles" className="flex-1">
-                <Button type="button" variant="outline" className="w-full border-border">
+              <Link href="/admin/vehicles">
+                <Button type="button" variant="outline" className="futuristic-border">
                   Cancel
                 </Button>
               </Link>
             </div>
           </form>
-
-          <Card className="mt-6 p-6 glass-effect border-primary/30 bg-primary/5">
-            <h3 className="font-orbitron font-bold mb-2 text-primary">💡 Note: Demo Mode</h3>
-            <p className="text-sm text-muted-foreground">
-              This form is currently in demo mode. To persist vehicle data, you need to:
-            </p>
-            <ul className="text-sm text-muted-foreground mt-2 space-y-1 list-disc list-inside">
-              <li>Enable Supabase integration (click "Enable Supabase" in the chat)</li>
-              <li>Create a vehicles table in your database</li>
-              <li>Connect the form submission to the Supabase client</li>
-            </ul>
-          </Card>
         </div>
       </div>
     </>

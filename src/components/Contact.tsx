@@ -1,135 +1,186 @@
+import { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
+import { contactService, type ContactSubmissionInsert } from "@/services/contactService";
 
 export function Contact() {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<ContactSubmissionInsert>({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await contactService.submit(formData);
+      alert("Message sent successfully! We'll get back to you soon.");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (field: keyof ContactSubmissionInsert, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
-    <section id="contact" className="py-24 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/30" />
-      
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="font-orbitron text-4xl md:text-5xl font-bold mb-4">
-            GET IN <span className="text-primary text-glow">TOUCH</span>
+    <section id="contact" className="py-20 relative">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+          <div className="inline-block p-2 rounded-lg bg-primary/10 border border-primary/30 mb-4">
+            <Mail className="w-6 h-6 text-primary" />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-neon-colors mb-4">
+            Get In Touch
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to start your journey? Our team is here to assist you 24/7
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Ready to find your dream vehicle? Contact us today
           </p>
         </div>
-        
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <div className="space-y-8">
-            <Card className="p-8 glass-effect border-border">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Full Name</label>
-                    <Input placeholder="John Doe" className="bg-secondary border-border" />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Email</label>
-                    <Input type="email" placeholder="john@example.com" className="bg-secondary border-border" />
-                  </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Contact Info */}
+          <div className="space-y-6">
+            <Card className="futuristic-card p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
+                  <Phone className="w-6 h-6 text-white" />
                 </div>
-                
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Phone</label>
-                  <Input placeholder="+1 (555) 000-0000" className="bg-secondary border-border" />
+                  <h3 className="font-semibold text-neon-colors mb-1">Phone</h3>
+                  <p className="text-muted-foreground text-sm">+1 (555) 123-4567</p>
+                  <p className="text-muted-foreground text-sm">Mon-Fri: 9AM-6PM PST</p>
                 </div>
-                
-                <div>
-                  <label className="text-sm font-medium mb-2 block">Service Interest</label>
-                  <Input placeholder="Vehicle purchase, Import service, etc." className="bg-secondary border-border" />
+              </div>
+            </Card>
+
+            <Card className="futuristic-card p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 glow-effect">
+                  <Mail className="w-6 h-6 text-white" />
                 </div>
-                
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Message</label>
-                  <Textarea 
-                    placeholder="Tell us about your requirements..." 
-                    className="bg-secondary border-border min-h-32"
+                  <h3 className="font-semibold text-neon-colors mb-1">Email</h3>
+                  <p className="text-muted-foreground text-sm">sales@eliteauto.com</p>
+                  <p className="text-muted-foreground text-sm">import@eliteauto.com</p>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="futuristic-card p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 glow-effect">
+                  <MapPin className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-neon-colors mb-1">Location</h3>
+                  <p className="text-muted-foreground text-sm">123 Automotive Drive</p>
+                  <p className="text-muted-foreground text-sm">Los Angeles, CA 90001</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Contact Form */}
+          <Card className="futuristic-card p-8 lg:col-span-2">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-neon-colors">
+                    Name *
+                  </label>
+                  <Input
+                    required
+                    value={formData.name}
+                    onChange={(e) => handleChange("name", e.target.value)}
+                    placeholder="Your full name"
+                    className="futuristic-border"
                   />
                 </div>
-                
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground glow-cyan gap-2">
-                  <Send className="h-4 w-4" />
-                  Send Message
-                </Button>
-              </form>
-            </Card>
-          </div>
-          
-          <div className="space-y-6">
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors group">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Mail className="h-6 w-6 text-primary" />
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-neon-colors">
+                    Email *
+                  </label>
+                  <Input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => handleChange("email", e.target.value)}
+                    placeholder="your@email.com"
+                    className="futuristic-border"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-neon-colors">
+                    Phone
+                  </label>
+                  <Input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleChange("phone", e.target.value)}
+                    placeholder="+1 (555) 000-0000"
+                    className="futuristic-border"
+                  />
                 </div>
                 <div>
-                  <h3 className="font-orbitron font-bold mb-1">Email Us</h3>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Get in touch via email
-                  </p>
-                  <a href="mailto:contact@autonexus.com" className="text-primary hover:underline">
-                    contact@autonexus.com
-                  </a>
+                  <label className="block text-sm font-medium mb-2 text-neon-colors">
+                    Subject *
+                  </label>
+                  <Input
+                    required
+                    value={formData.subject}
+                    onChange={(e) => handleChange("subject", e.target.value)}
+                    placeholder="How can we help?"
+                    className="futuristic-border"
+                  />
                 </div>
               </div>
-            </Card>
-            
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors group">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <Phone className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-orbitron font-bold mb-1">Call Us</h3>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    24/7 customer support
-                  </p>
-                  <a href="tel:+15550000000" className="text-primary hover:underline">
-                    +1 (555) 000-0000
-                  </a>
-                </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 text-neon-colors">
+                  Message *
+                </label>
+                <Textarea
+                  required
+                  value={formData.message}
+                  onChange={(e) => handleChange("message", e.target.value)}
+                  placeholder="Tell us about your requirements..."
+                  className="futuristic-border min-h-32"
+                />
               </div>
-            </Card>
-            
-            <Card className="p-6 glass-effect border-border hover:border-primary/50 transition-colors group">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 p-3 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  <MapPin className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-orbitron font-bold mb-1">Visit Us</h3>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Main showroom location
-                  </p>
-                  <p className="text-primary">
-                    123 Luxury Drive, Dubai, UAE
-                  </p>
-                </div>
-              </div>
-            </Card>
-            
-            <Card className="p-6 glass-effect border-primary/30 bg-gradient-to-br from-primary/5 to-accent/5">
-              <h3 className="font-orbitron font-bold mb-2 text-lg">Operating Hours</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Monday - Friday</span>
-                  <span className="font-semibold">9:00 AM - 8:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Saturday</span>
-                  <span className="font-semibold">10:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Sunday</span>
-                  <span className="font-semibold">By Appointment</span>
-                </div>
-              </div>
-            </Card>
-          </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full futuristic-button group"
+              >
+                {loading ? "Sending..." : "Send Message"}
+                <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </form>
+          </Card>
         </div>
       </div>
     </section>

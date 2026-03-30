@@ -1,239 +1,247 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Car, Plus, Search, Edit, Trash2, ArrowLeft, Filter } from "lucide-react";
+import { Car, Plus, Search, Filter, Edit, Trash2, Eye, ArrowLeft } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SEO } from "@/components/SEO";
-
-interface Vehicle {
-  id: string;
-  name: string;
-  brand: string;
-  year: number;
-  price: number;
-  mileage: number;
-  location: string;
-  image: string;
-  type: "sale" | "import";
-  status: "active" | "sold" | "pending";
-}
-
-const mockVehicles: Vehicle[] = [
-  {
-    id: "1",
-    name: "Model S Plaid",
-    brand: "Tesla",
-    year: 2024,
-    price: 129990,
-    mileage: 1200,
-    location: "Dubai, UAE",
-    image: "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&q=80",
-    type: "sale",
-    status: "active"
-  },
-  {
-    id: "2",
-    name: "911 Turbo S",
-    brand: "Porsche",
-    year: 2024,
-    price: 235000,
-    mileage: 500,
-    location: "Stuttgart, Germany",
-    image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=400&q=80",
-    type: "import",
-    status: "active"
-  },
-  {
-    id: "3",
-    name: "Aventador SVJ",
-    brand: "Lamborghini",
-    year: 2023,
-    price: 517770,
-    mileage: 2100,
-    location: "Milan, Italy",
-    image: "https://images.unsplash.com/photo-1621135802920-133df287f89c?w=400&q=80",
-    type: "import",
-    status: "pending"
-  }
-];
+import { vehicleService, type Vehicle } from "@/services/vehicleService";
 
 export default function VehiclesManagement() {
-  const [vehicles] = useState<Vehicle[]>(mockVehicles);
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState<"all" | "sale" | "import">("all");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
-  const filteredVehicles = vehicles.filter(v => {
-    const matchesSearch = v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         v.brand.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesType = filterType === "all" || v.type === filterType;
-    return matchesSearch && matchesType;
+  useEffect(() => {
+    loadVehicles();
+  }, [categoryFilter, statusFilter]);
+
+  const loadVehicles = async () => {
+    setLoading(true);
+    try {
+      const filters: any = {};
+      if (categoryFilter !== "all") filters.category = categoryFilter;
+      if (statusFilter !== "all") filters.status = statusFilter;
+      
+      const data = await vehicleService.getAll(filters);
+      setVehicles(data);
+    } catch (error) {
+      console.error("Error loading vehicles:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this vehicle?")) return;
+    
+    try {
+      await vehicleService.delete(id);
+      await loadVehicles();
+    } catch (error) {
+      console.error("Error deleting vehicle:", error);
+      alert("Failed to delete vehicle");
+    }
+  };
+
+  const filteredVehicles = vehicles.filter(vehicle => {
+    const search = searchQuery.toLowerCase();
+    return (
+      vehicle.make.toLowerCase().includes(search) ||
+      vehicle.model.toLowerCase().includes(search) ||
+      vehicle.vin?.toLowerCase().includes(search) ||
+      vehicle.stock_number?.toLowerCase().includes(search)
+    );
   });
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "active": return "bg-primary/10 text-primary border-primary/30";
-      case "sold": return "bg-accent/10 text-accent border-accent/30";
-      case "pending": return "bg-muted/10 text-muted-foreground border-muted/30";
-      default: return "";
-    }
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, { variant: "default" | "secondary" | "destructive" | "outline", className: string }> = {
+      available: { variant: "default", className: "bg-green-500/20 text-green-500 border-green-500/50" },
+      sold: { variant: "secondary", className: "bg-gray-500/20 text-gray-400 border-gray-500/50" },
+      importing: { variant: "outline", className: "bg-orange-500/20 text-orange-500 border-orange-500/50" },
+      reserved: { variant: "outline", className: "bg-blue-500/20 text-blue-500 border-blue-500/50" },
+    };
+    const config = variants[status] || variants.available;
+    return <Badge variant={config.variant} className={config.className}>{status}</Badge>;
   };
 
   return (
     <>
-      <SEO 
-        title="Vehicle Management - AutoNexus Admin"
-        description="Manage your vehicle inventory"
+      <SEO
+        title="Vehicle Management - Admin"
+        description="Manage vehicle inventory"
       />
       <div className="min-h-screen bg-background">
-        <nav className="border-b border-border glass-effect">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="tech-grid" />
+        
+        {/* Header */}
+        <div className="border-b border-border/50 backdrop-blur-xl bg-background/80">
+          <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <Link href="/admin" className="flex items-center gap-3">
-                <Car className="h-8 w-8 text-primary" />
-                <span className="font-orbitron text-2xl font-bold">
-                  AUTO<span className="text-primary">NEXUS</span>
-                  <span className="text-sm text-muted-foreground ml-2">Admin</span>
-                </span>
-              </Link>
-              
-              <Link href="/admin">
-                <Button variant="outline" size="sm" className="gap-2">
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Dashboard
+              <div className="flex items-center gap-3">
+                <Link href="/admin">
+                  <Button variant="ghost" size="icon">
+                    <ArrowLeft className="w-5 h-5" />
+                  </Button>
+                </Link>
+                <div className="p-2 rounded-lg bg-gradient-to-br from-primary to-cyan-600 glow-effect">
+                  <Car className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-neon-colors">Vehicle Management</h1>
+                  <p className="text-xs text-muted-foreground">{vehicles.length} vehicles in inventory</p>
+                </div>
+              </div>
+              <Link href="/admin/vehicles/new">
+                <Button className="futuristic-button">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Vehicle
                 </Button>
               </Link>
             </div>
           </div>
-        </nav>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="font-orbitron text-4xl font-bold mb-2">
-                VEHICLE <span className="text-primary text-glow">MANAGEMENT</span>
-              </h1>
-              <p className="text-muted-foreground">Add and manage your vehicle inventory</p>
-            </div>
-            
-            <Link href="/admin/vehicles/new">
-              <Button className="bg-primary hover:bg-primary/90 glow-cyan gap-2">
-                <Plus className="h-5 w-5" />
-                Add Vehicle
-              </Button>
-            </Link>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input 
-                placeholder="Search vehicles by name or brand..." 
-                className="pl-10 bg-secondary border-border"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            
-            <div className="flex gap-2 glass-effect p-2 rounded-lg border border-border">
-              <Button
-                variant={filterType === "all" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFilterType("all")}
-                className={filterType === "all" ? "bg-primary text-primary-foreground" : ""}
+        <div className="container mx-auto px-6 py-8 relative z-10">
+          {/* Filters */}
+          <Card className="futuristic-card p-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="relative md:col-span-2">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by make, model, VIN, or stock #..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 futuristic-border"
+                />
+              </div>
+              <select
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.target.value)}
+                className="px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                All
-              </Button>
-              <Button
-                variant={filterType === "sale" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFilterType("sale")}
-                className={filterType === "sale" ? "bg-primary text-primary-foreground" : ""}
+                <option value="all">All Categories</option>
+                <option value="for_sale">For Sale</option>
+                <option value="import_service">Import Service</option>
+              </select>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="px-4 py-2 rounded-lg bg-card border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               >
-                For Sale
-              </Button>
-              <Button
-                variant={filterType === "import" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => setFilterType("import")}
-                className={filterType === "import" ? "bg-primary text-primary-foreground" : ""}
-              >
-                Import
-              </Button>
+                <option value="all">All Status</option>
+                <option value="available">Available</option>
+                <option value="sold">Sold</option>
+                <option value="importing">Importing</option>
+                <option value="reserved">Reserved</option>
+              </select>
             </div>
-          </div>
+          </Card>
 
-          <div className="grid gap-4">
-            {filteredVehicles.map((vehicle) => (
-              <Card key={vehicle.id} className="p-6 glass-effect border-border hover:border-primary/50 transition-all">
-                <div className="flex flex-col md:flex-row gap-6">
-                  <div className="w-full md:w-48 h-32 rounded-lg overflow-hidden flex-shrink-0">
-                    <img 
-                      src={vehicle.image} 
-                      alt={`${vehicle.brand} ${vehicle.name}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-orbitron text-xl font-bold text-primary mb-1">
-                          {vehicle.brand} {vehicle.name}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {vehicle.year} • {vehicle.mileage.toLocaleString()} miles • {vehicle.location}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-orbitron font-bold text-primary">
-                          ${vehicle.price.toLocaleString()}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 mb-4">
-                      <Badge className={getStatusColor(vehicle.status)}>
-                        {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
-                      </Badge>
-                      <Badge variant="outline" className="border-primary/30">
-                        {vehicle.type === "sale" ? "For Sale" : "Import Service"}
-                      </Badge>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <Link href={`/admin/vehicles/${vehicle.id}/edit`}>
-                        <Button variant="outline" size="sm" className="gap-2 border-primary/50 hover:bg-primary/10">
-                          <Edit className="h-4 w-4" />
-                          Edit
-                        </Button>
-                      </Link>
-                      <Button variant="outline" size="sm" className="gap-2 border-destructive/50 hover:bg-destructive/10 text-destructive">
-                        <Trash2 className="h-4 w-4" />
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          {filteredVehicles.length === 0 && (
-            <Card className="p-12 glass-effect border-border text-center">
-              <Car className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="font-orbitron text-xl font-bold mb-2">No vehicles found</h3>
+          {/* Vehicles List */}
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading vehicles...</p>
+            </div>
+          ) : filteredVehicles.length === 0 ? (
+            <Card className="futuristic-card p-12 text-center">
+              <Car className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+              <h3 className="text-xl font-semibold mb-2">No vehicles found</h3>
               <p className="text-muted-foreground mb-6">
-                {searchQuery ? "Try adjusting your search" : "Start by adding your first vehicle"}
+                {searchQuery ? "Try adjusting your search filters" : "Start by adding your first vehicle"}
               </p>
               <Link href="/admin/vehicles/new">
-                <Button className="bg-primary hover:bg-primary/90 glow-cyan gap-2">
-                  <Plus className="h-5 w-5" />
+                <Button className="futuristic-button">
+                  <Plus className="w-4 h-4 mr-2" />
                   Add Vehicle
                 </Button>
               </Link>
             </Card>
+          ) : (
+            <div className="grid grid-cols-1 gap-4">
+              {filteredVehicles.map((vehicle) => (
+                <Card key={vehicle.id} className="futuristic-card p-6 hover-lift">
+                  <div className="flex items-start gap-6">
+                    {/* Vehicle Image */}
+                    <div className="w-48 h-32 rounded-lg bg-card/50 border border-border/50 flex items-center justify-center flex-shrink-0">
+                      {vehicle.images && vehicle.images.length > 0 ? (
+                        <img
+                          src={vehicle.images[0]}
+                          alt={`${vehicle.make} ${vehicle.model}`}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        <Car className="w-12 h-12 text-muted-foreground opacity-30" />
+                      )}
+                    </div>
+
+                    {/* Vehicle Info */}
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <h3 className="text-xl font-bold text-neon-colors mb-1">
+                            {vehicle.year} {vehicle.make} {vehicle.model}
+                          </h3>
+                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <span>{vehicle.stock_number || vehicle.vin}</span>
+                            <span>•</span>
+                            <span>{vehicle.location}</span>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold text-primary mb-1">
+                            ${vehicle.price.toLocaleString()}
+                          </p>
+                          {getStatusBadge(vehicle.status || "available")}
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-4 gap-4 mb-4 text-sm">
+                        <div>
+                          <p className="text-muted-foreground">Mileage</p>
+                          <p className="font-semibold">{vehicle.mileage.toLocaleString()} mi</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Transmission</p>
+                          <p className="font-semibold">{vehicle.transmission}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Fuel Type</p>
+                          <p className="font-semibold">{vehicle.fuel_type}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">Condition</p>
+                          <p className="font-semibold">{vehicle.condition}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Button size="sm" variant="outline" className="futuristic-border">
+                          <Eye className="w-4 h-4 mr-2" />
+                          View
+                        </Button>
+                        <Button size="sm" variant="outline" className="futuristic-border">
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="futuristic-border text-red-500 border-red-500/50 hover:bg-red-500/10"
+                          onClick={() => handleDelete(vehicle.id)}
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       </div>
