@@ -130,45 +130,31 @@ export default function AdminDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid md:grid-cols-3 gap-6">
-              <Link href="/admin/vehicles/new">
-                <Card className="p-6 bg-card/80 backdrop-blur-sm border-cyan/20 hover:border-cyan/50 transition-colors cursor-pointer h-full">
-                  <Plus className="h-10 w-10 text-cyan mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Add New Vehicle</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Add a new vehicle to your inventory
-                  </p>
-                </Card>
-              </Link>
-
-              <Link href="/admin/vehicles">
-                <Card className="p-6 bg-card/80 backdrop-blur-sm border-cyan/20 hover:border-cyan/50 transition-colors cursor-pointer h-full">
-                  <Car className="h-10 w-10 text-cyan mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Manage Vehicles</h3>
-                  <p className="text-muted-foreground text-sm">
-                    View and edit your vehicle inventory
-                  </p>
-                </Card>
-              </Link>
-
-              <Link href="/admin/contacts">
-                <Card className="p-6 bg-card/80 backdrop-blur-sm border-cyan/20 hover:border-cyan/50 transition-colors cursor-pointer h-full">
-                  <MessageSquare className="h-10 w-10 text-cyan mb-4" />
-                  <h3 className="text-xl font-bold mb-2">Contact Inquiries</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Manage customer contact requests
-                  </p>
-                  <div className="flex gap-2 mt-4">
-                    <span className="px-2 py-1 bg-cyan/10 border border-cyan/30 rounded text-xs text-cyan">
-                      {contactStats.new} New
-                    </span>
-                    <span className="px-2 py-1 bg-amber/10 border border-amber/30 rounded text-xs text-amber">
-                      {contactStats.inProgress} In Progress
-                    </span>
-                  </div>
-                </Card>
-              </Link>
-            </div>
+            <Card className="p-6 bg-gradient-to-br from-space-blue via-space-blue/95 to-space-blue border-cyan/20 hover:border-cyan/40 transition-all">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Quick Actions</h3>
+              </div>
+              <div className="space-y-3">
+                <Link href="/admin/vehicles/new">
+                  <Button className="w-full justify-start gap-3 bg-cyan/10 hover:bg-cyan/20 border border-cyan/20">
+                    <Plus className="h-4 w-4" />
+                    Add New Vehicle
+                  </Button>
+                </Link>
+                <Link href="/admin/vehicles">
+                  <Button variant="outline" className="w-full justify-start gap-3 border-cyan/20 hover:bg-cyan/10">
+                    <Car className="h-4 w-4" />
+                    View All Vehicles
+                  </Button>
+                </Link>
+                <Link href="/admin/contacts">
+                  <Button variant="outline" className="w-full justify-start gap-3 border-cyan/20 hover:bg-cyan/10">
+                    <MessageSquare className="h-4 w-4" />
+                    View Contact Inquiries
+                  </Button>
+                </Link>
+              </div>
+            </Card>
           </div>
         </div>
       </div>

@@ -210,18 +210,24 @@ export default function VehiclesManagement() {
                         <div>Status: {vehicle.status}</div>
                       </div>
                       <div className="flex gap-2">
-                        <Link href={`/admin/vehicles/edit/${vehicle.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full border-cyan/30">
-                            <Edit className="h-4 w-4 mr-2" />
+                        <Link href={`/admin/vehicles/edit/${vehicle.id}`}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="border-cyan/20 hover:bg-cyan/10"
+                          >
+                            <Edit className="h-4 w-4 mr-1" />
                             Edit
                           </Button>
                         </Link>
                         <Button
+                          size="sm"
                           variant="outline"
-                          className="border-destructive/30 text-destructive hover:bg-destructive/10"
                           onClick={() => handleDelete(vehicle.id)}
+                          className="border-destructive/20 hover:bg-destructive/10 text-destructive"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4 mr-1" />
+                          Delete
                         </Button>
                       </div>
                     </div>

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { vehicleService, type Vehicle } from "@/services/vehicleService";
+import Link from "next/link";
 
 export function VehicleInventory() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -83,80 +84,78 @@ export function VehicleInventory() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {vehicles.map((vehicle) => (
-              <Card key={vehicle.id} className="futuristic-card overflow-hidden group hover-lift">
-                {/* Vehicle Image */}
-                <div className="relative h-48 bg-card/50 border-b border-border/50">
-                  {vehicle.images && vehicle.images.length > 0 ? (
-                    <img
-                      src={vehicle.images[0]}
-                      alt={`${vehicle.make} ${vehicle.model}`}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full">
-                      <Car className="w-16 h-16 text-muted-foreground opacity-30" />
-                    </div>
-                  )}
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-primary/90 text-white border-0">
-                      {vehicle.condition}
-                    </Badge>
-                  </div>
-                  {vehicle.category === "import_service" && (
-                    <div className="absolute top-4 left-4">
-                      <Badge className="bg-orange-500/90 text-white border-0">
-                        Import Service
+              <Link key={vehicle.id} href={`/vehicles/${vehicle.id}`}>
+                <Card className="group overflow-hidden bg-gradient-to-br from-space-blue via-space-blue/95 to-space-blue border-cyan/20 hover:border-cyan/40 transition-all cursor-pointer h-full">
+                  {/* Vehicle Image */}
+                  <div className="relative h-48 bg-card/50 border-b border-border/50">
+                    {vehicle.images && vehicle.images.length > 0 ? (
+                      <img
+                        src={vehicle.images[0]}
+                        alt={`${vehicle.make} ${vehicle.model}`}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full">
+                        <Car className="w-16 h-16 text-muted-foreground opacity-30" />
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4">
+                      <Badge className="bg-primary/90 text-white border-0">
+                        {vehicle.condition}
                       </Badge>
                     </div>
-                  )}
-                </div>
-
-                {/* Vehicle Info */}
-                <div className="p-6">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-neon-colors mb-1">
-                      {vehicle.year} {vehicle.make} {vehicle.model}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">{vehicle.location}</p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Gauge className="w-4 h-4" />
-                      <span>{vehicle.mileage.toLocaleString()} mi</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Zap className="w-4 h-4" />
-                      <span>{vehicle.fuel_type}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Calendar className="w-4 h-4" />
-                      <span>{vehicle.transmission}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      <span>{vehicle.body_type}</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-border/50">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-2xl font-bold text-primary">
-                          ${vehicle.price.toLocaleString()}
-                        </p>
-                        {vehicle.category === "import_service" && (
-                          <p className="text-xs text-muted-foreground">Est. delivery 4-6 weeks</p>
-                        )}
+                    {vehicle.category === "import_service" && (
+                      <div className="absolute top-4 left-4">
+                        <Badge className="bg-orange-500/90 text-white border-0">
+                          Import Service
+                        </Badge>
                       </div>
-                      <Button size="sm" className="futuristic-button group">
-                        View Details
-                        <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                      </Button>
+                    )}
+                  </div>
+
+                  {/* Vehicle Info */}
+                  <div className="p-6">
+                    <div className="mb-4">
+                      <h3 className="text-xl font-bold text-neon-colors mb-1">
+                        {vehicle.year} {vehicle.make} {vehicle.model}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{vehicle.location}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Gauge className="w-4 h-4" />
+                        <span>{vehicle.mileage.toLocaleString()} mi</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Zap className="w-4 h-4" />
+                        <span>{vehicle.fuel_type}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="w-4 h-4" />
+                        <span>{vehicle.transmission}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <MapPin className="w-4 h-4" />
+                        <span>{vehicle.body_type}</span>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-border/50">
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-cyan">${vehicle.price.toLocaleString()}</span>
+                        <Button 
+                          size="sm" 
+                          className="bg-cyan/10 hover:bg-cyan/20 border border-cyan/20 group-hover:bg-cyan group-hover:text-background transition-colors"
+                        >
+                          View Details
+                          <ExternalLink className="h-4 w-4 ml-1" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </Link>
             ))}
           </div>
         )}
