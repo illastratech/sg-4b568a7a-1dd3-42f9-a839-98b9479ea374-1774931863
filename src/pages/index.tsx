@@ -1,12 +1,20 @@
-import React from 'react'
+import { Navigation } from "@/components/Navigation";
+import { Hero } from "@/components/Hero";
+import { Services } from "@/components/Services";
+import { SEO } from "@/components/SEO";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-foreground">Hello World</h1>
-        <p className="text-lg text-muted-foreground">This is going to be your softgen app, start by describing your project.</p>
+    <>
+      <SEO 
+        title="AutoNexus - Premium Car Sales & Import Services"
+        description="Experience the future of automotive excellence with AutoNexus. Premium vehicle sales and global import services with cutting-edge technology."
+      />
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <Hero />
+        <Services />
       </div>
-    </main>
-  )
+    </>
+  );
 }
