@@ -78,4 +78,29 @@
   .diagonal-cut {
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
   }
+
+  /* Auto-scrolling animation for hero cards */
+  .scroll-container {
+    animation: scroll-up 20s linear infinite;
+  }
+
+  .scroll-container:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Glassmorphism cards */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
 }

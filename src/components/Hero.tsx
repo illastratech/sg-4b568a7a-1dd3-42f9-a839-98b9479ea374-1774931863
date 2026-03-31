@@ -1,4 +1,4 @@
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, Zap, Car, Globe, Shield, FileText, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Hero() {
@@ -71,9 +71,104 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Right Half - Could add image or visual element here */}
-      <div className="hidden lg:block absolute right-0 top-0 w-1/2 h-full">
+      {/* Right Half - Auto-scrolling Cards */}
+      <div className="hidden lg:block absolute right-0 top-0 w-1/2 h-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
+        
+        {/* Auto-scrolling Cards Container */}
+        <div className="relative h-full flex items-center justify-center py-20">
+          <div className="scroll-container space-y-6 w-full max-w-md px-8">
+            {/* Card 1 */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Car className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Premium Selection</h3>
+                  <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Globe className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
+                  <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Shield className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Certified Quality</h3>
+                  <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <FileText className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Full Documentation</h3>
+                  <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 5 */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Truck className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Secure Delivery</h3>
+                  <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Duplicate cards for seamless loop */}
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Car className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Premium Selection</h3>
+                  <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Globe className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
+                  <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
