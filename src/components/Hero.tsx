@@ -87,10 +87,10 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* Auto-scrolling Cards Container */}
-        <div className="relative h-full flex items-center justify-center py-20" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent", backgroundPosition: "right center" }}>
-          <div className="scroll-container space-y-6 w-full max-w-md px-8">
+        <div className="relative h-full flex items-center justify-center py-20">
+          <div className="scroll-container space-y-8 w-full max-w-2xl px-8">
             {/* Card 1 */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Car className="h-6 w-6 text-cyan" />
@@ -103,7 +103,7 @@ export function Hero() {
             </div>
 
             {/* Card 2 */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Globe className="h-6 w-6 text-cyan" />
@@ -116,7 +116,7 @@ export function Hero() {
             </div>
 
             {/* Card 3 */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Shield className="h-6 w-6 text-cyan" />
@@ -129,7 +129,7 @@ export function Hero() {
             </div>
 
             {/* Card 4 */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <FileText className="h-6 w-6 text-cyan" />
@@ -142,7 +142,7 @@ export function Hero() {
             </div>
 
             {/* Card 5 */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Truck className="h-6 w-6 text-cyan" />
@@ -155,7 +155,7 @@ export function Hero() {
             </div>
 
             {/* Duplicate cards for seamless loop */}
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Car className="h-6 w-6 text-cyan" />
@@ -167,7 +167,7 @@ export function Hero() {
               </div>
             </div>
 
-            <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
                   <Globe className="h-6 w-6 text-cyan" />
