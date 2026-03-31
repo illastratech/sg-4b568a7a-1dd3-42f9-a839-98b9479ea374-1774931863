@@ -9,7 +9,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-radial from-cyan/5 via-transparent to-transparent" />
       
       {/* Content */}
-      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8 py-20" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent" }}>
         <div className="text-center space-y-8 max-w-5xl mx-auto">
           {/* Main Headline */}
           <div className="space-y-4">
@@ -33,18 +33,18 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <Button 
-              size="lg" 
-              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group"
-            >
+            <Button
+              size="lg"
+              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group">
+              
               Browse Inventory
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-cyan/20 hover:bg-cyan/10 px-8 py-6 text-lg"
-            >
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-cyan/20 hover:bg-cyan/10 px-8 py-6 text-lg">
+              
               Request Import Service
             </Button>
           </div>
@@ -70,6 +70,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
