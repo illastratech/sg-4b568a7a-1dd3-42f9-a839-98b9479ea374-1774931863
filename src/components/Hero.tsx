@@ -19,9 +19,9 @@ export function Hero() {
       <div className="absolute inset-0 bg-grid-pattern opacity-10 animate-pulse-slow" />
       <div className="absolute inset-0 bg-gradient-radial from-cyan/5 via-transparent to-transparent" />
       
-      {/* Content - Left Half */}
-      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-20">
-        <div className="space-y-8 max-w-2xl">
+      {/* Content - Left Third */}
+      <div className="relative z-10 w-full lg:w-1/3 px-4 sm:px-6 lg:px-8 xl:px-12 py-20">
+        <div className="space-y-8 max-w-xl">
           {/* Main Headline */}
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan/10 border border-cyan/20 mb-6">
@@ -82,8 +82,8 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Right Half - Auto-scrolling Cards */}
-      <div className="hidden lg:block absolute right-0 top-0 w-1/2 h-full overflow-hidden">
+      {/* Right Two-Thirds - Auto-scrolling Cards */}
+      <div className="hidden lg:block absolute right-0 top-0 w-2/3 h-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* Auto-scrolling Cards Container */}
