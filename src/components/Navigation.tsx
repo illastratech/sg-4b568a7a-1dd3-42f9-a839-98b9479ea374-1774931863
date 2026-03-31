@@ -14,7 +14,7 @@ export function Navigation() {
               <Car className="h-8 w-8 text-cyan relative" />
             </div>
             <div>
-              <div className="text-2xl font-bold bg-gradient-to-r from-cyan via-cyan to-accent bg-clip-text text-transparent">
+              <div className="text-2xl font-bold bg-gradient-to-r from-cyan via-cyan to-accent bg-clip-text text-transparent" style={{ color: "#3b82f6" }}>
                 TRIXON MOTORS
               </div>
               <div className="text-xs text-cyan/60 -mt-1">Global Import Excellence</div>
@@ -49,6 +49,6 @@ export function Navigation() {
           </Link>
         </div>
       </div>
-    </nav>
-  );
+    </nav>);
+
 }
