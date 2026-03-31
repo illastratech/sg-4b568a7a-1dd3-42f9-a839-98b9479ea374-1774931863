@@ -4,12 +4,23 @@ import { Button } from "@/components/ui/button";
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-space-blue to-background">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1920')",
+        }}
+      />
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/60" />
+      
       {/* Animated Background Grid */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-20 animate-pulse-slow" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-10 animate-pulse-slow" />
       <div className="absolute inset-0 bg-gradient-radial from-cyan/5 via-transparent to-transparent" />
       
       {/* Content - Left Half */}
-      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-20" style={{ backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent", backgroundPosition: "center center" }}>
+      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-20">
         <div className="space-y-8 max-w-2xl">
           {/* Main Headline */}
           <div className="space-y-4">
