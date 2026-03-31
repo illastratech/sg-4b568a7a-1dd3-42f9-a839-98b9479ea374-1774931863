@@ -9,7 +9,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-radial from-cyan/5 via-transparent to-transparent" />
       
       {/* Content - Left Half */}
-      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-20">
+      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-12 xl:px-16 py-20" style={{ backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent", backgroundPosition: "center center" }}>
         <div className="space-y-8 max-w-2xl">
           {/* Main Headline */}
           <div className="space-y-4">
@@ -33,18 +33,18 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 pt-8">
-            <Button 
-              size="lg" 
-              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group"
-            >
+            <Button
+              size="lg"
+              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group">
+              
               Browse Inventory
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-cyan/20 hover:bg-cyan/10 px-8 py-6 text-lg"
-            >
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-cyan/20 hover:bg-cyan/10 px-8 py-6 text-lg">
+              
               Request Import Service
             </Button>
           </div>
@@ -76,7 +76,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* Auto-scrolling Cards Container */}
-        <div className="relative h-full flex items-center justify-center py-20">
+        <div className="relative h-full flex items-center justify-center py-20" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent", backgroundPosition: "right center" }}>
           <div className="scroll-container space-y-6 w-full max-w-md px-8">
             {/* Card 1 */}
             <div className="glass-card p-6 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
@@ -170,6 +170,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
