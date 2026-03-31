@@ -87,7 +87,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* Auto-scrolling Cards Container */}
-        <div className="relative h-full flex items-center justify-center py-20" style={{ backgroundImage: "url(\"/generated-image-1774937877343.png\")", backgroundColor: "transparent", backgroundPosition: "center center" }}>
+        <div className="relative h-full flex items-center justify-center py-20" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_18_PM.png\")", backgroundColor: "transparent", backgroundPosition: "center top" }}>
           <div className="scroll-container-seamless space-y-8 w-full max-w-2xl px-8">
             {/* Original Set of Cards */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
