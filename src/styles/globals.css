@@ -79,21 +79,21 @@
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
   }
 
-  /* Auto-scrolling animation for hero cards */
-  .scroll-container {
-    animation: scroll-up 20s linear infinite;
+  /* Seamless orbiting animation for hero cards */
+  .scroll-container-seamless {
+    animation: scroll-orbit 30s linear infinite;
   }
 
-  .scroll-container:hover {
+  .scroll-container-seamless:hover {
     animation-play-state: paused;
   }
 
-  @keyframes scroll-up {
+  @keyframes scroll-orbit {
     0% {
       transform: translateY(0);
     }
     100% {
-      transform: translateY(-50%);
+      transform: translateY(calc(-100% / 3));
     }
   }
 

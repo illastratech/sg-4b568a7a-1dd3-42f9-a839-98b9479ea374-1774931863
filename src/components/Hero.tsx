@@ -87,9 +87,9 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* Auto-scrolling Cards Container */}
-        <div className="relative h-full flex items-center justify-center py-20" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_34_PM.png\")", backgroundColor: "transparent", backgroundPosition: "center center" }}>
-          <div className="scroll-container space-y-8 w-full max-w-2xl px-8">
-            {/* Card 1 */}
+        <div className="relative h-full flex items-center justify-center py-20">
+          <div className="scroll-container-seamless space-y-8 w-full max-w-2xl px-8">
+            {/* Original Set of Cards */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -102,7 +102,6 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Card 2 */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -115,7 +114,6 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Card 3 */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -128,7 +126,6 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Card 4 */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -141,7 +138,6 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Card 5 */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -154,7 +150,7 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Duplicate cards for seamless loop */}
+            {/* First Duplicate Set */}
             <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-lg bg-cyan/20">
@@ -175,6 +171,103 @@ export function Hero() {
                 <div className="flex-1">
                   <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
                   <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Shield className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Certified Quality</h3>
+                  <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <FileText className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Full Documentation</h3>
+                  <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Truck className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Secure Delivery</h3>
+                  <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Second Duplicate Set */}
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Car className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Premium Selection</h3>
+                  <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Globe className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
+                  <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Shield className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Certified Quality</h3>
+                  <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <FileText className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Full Documentation</h3>
+                  <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card p-8 rounded-2xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-lg bg-cyan/20">
+                  <Truck className="h-6 w-6 text-cyan" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-white mb-2">Secure Delivery</h3>
+                  <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
                 </div>
               </div>
             </div>
