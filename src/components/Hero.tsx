@@ -15,7 +15,7 @@ export function Hero() {
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan/10 border border-cyan/20 mb-6">
               <Zap className="h-4 w-4 text-cyan" />
-              <span className="text-sm font-medium text-cyan">Premium Import & Sales Service</span>
+              <span className="text-sm font-medium text-cyan" style={{ textAlign: "center" }}>Premium Import & Sales Service</span>
             </div>
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight">
@@ -23,10 +23,10 @@ export function Hero() {
                 Drive the Future
               </span>
               <br />
-              <span className="text-white" style={{ backgroundColor: "#1a1a1a", backgroundImage: "none" }}>with Trixon Motors</span>
+              <span className="text-white" style={{ backgroundColor: "#00000000", backgroundImage: "none" }}>with Trixon Motors</span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#f3f4f6", backgroundColor: "#1a1a1a", backgroundImage: "none" }}>
+            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#f3f4f6", backgroundColor: "#1a1a1a", backgroundImage: "none", textAlign: "center" }}>
               Global vehicle import specialists delivering premium automobiles with unmatched precision and service excellence
             </p>
           </div>
