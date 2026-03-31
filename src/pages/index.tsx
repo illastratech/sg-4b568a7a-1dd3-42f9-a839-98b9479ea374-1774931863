@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="AutoNexus - Premium Car Sales & Import Services"
-        description="Experience the future of automotive excellence with AutoNexus. Premium vehicle sales and global import services with cutting-edge technology."
+        title="Trixon Motors - Premium Vehicle Sales & Global Import Service"
+        description="Experience automotive excellence with Trixon Motors. Premium vehicle sales and professional global import services. Your trusted partner for luxury and performance vehicles since 2015."
       />
       <div className="min-h-screen bg-background">
         <Navigation />
