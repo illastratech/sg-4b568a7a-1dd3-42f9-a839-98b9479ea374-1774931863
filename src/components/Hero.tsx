@@ -19,14 +19,14 @@ export function Hero() {
             </div>
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan to-white" style={{ backgroundColor: "#1a1a1a", backgroundImage: "none" }}>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan to-white" style={{ backgroundColor: "#1a1a1a", backgroundImage: "none", color: "#3b82f6" }}>
                 Drive the Future
               </span>
               <br />
-              <span className="text-white" style={{ backgroundColor: "#00000000", backgroundImage: "none" }}>with Trixon Motors</span>
+              <span className="text-white" style={{ backgroundColor: "#00000000", backgroundImage: "none", color: "#06b6d4" }}>with Trixon Motors</span>
             </h1>
             
-            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#f3f4f6", backgroundColor: "#1a1a1a", backgroundImage: "none", textAlign: "center" }}>
+            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#18181b", backgroundColor: "#00000000", backgroundImage: "none", textAlign: "center", opacity: "1" }}>
               Global vehicle import specialists delivering premium automobiles with unmatched precision and service excellence
             </p>
           </div>
