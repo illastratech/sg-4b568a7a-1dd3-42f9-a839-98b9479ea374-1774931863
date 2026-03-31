@@ -5,12 +5,12 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-space-blue to-background">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1920')",
-        }}
-      />
+          backgroundImage: "url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1920')"
+        }} />
+      
       
       {/* Overlay for better text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/60" />
@@ -24,20 +24,20 @@ export function Hero() {
         <div className="space-y-8 max-w-xl">
           {/* Main Headline */}
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan/10 border border-cyan/20 mb-6">
-              <Zap className="h-4 w-4 text-cyan" />
-              <span className="text-sm font-medium text-cyan" style={{ textAlign: "center" }}>Premium Import & Sales Service</span>
-            </div>
+            
+
+
+            
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan to-white" style={{ backgroundColor: "#1a1a1a", backgroundImage: "none", color: "#3b82f6" }}>
                 Drive the Future
               </span>
               <br />
-              <span className="text-white" style={{ backgroundColor: "#00000000", backgroundImage: "none", color: "#06b6d4" }}>with Trixon Motors</span>
+              
             </h1>
             
-            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#171717", backgroundColor: "#00000000", backgroundImage: "none", textAlign: "left", opacity: "1" }}>
+            <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed" style={{ color: "#bababa", backgroundColor: "#00000000", backgroundImage: "none", textAlign: "left", opacity: "1" }}>
               Global vehicle import specialists delivering premium automobiles with unmatched precision and service excellence
             </p>
           </div>
@@ -46,7 +46,7 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 pt-8">
             <Button
               size="lg"
-              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group" style={{ color: "#f3f4f6", backgroundColor: "#06b6d4", backgroundImage: "none" }}>
+              className="bg-cyan hover:bg-cyan/90 text-background font-bold px-8 py-6 text-lg group" style={{ color: "#f3f4f6", backgroundColor: "#06b6d4", backgroundImage: "none", textAlign: "left" }}>
               
               Browse Inventory
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
