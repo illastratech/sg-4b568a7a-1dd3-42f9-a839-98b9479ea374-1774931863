@@ -4,56 +4,38 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Base Colors */
-  --background: 220 35% 6%;
-  --foreground: 0 0% 98%;
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --radius: 0.5rem;
 
-  /* Card Colors */
-  --card: 220 30% 8%;
-  --card-foreground: 0 0% 98%;
-
-  /* Popover */
-  --popover: 220 30% 8%;
-  --popover-foreground: 0 0% 98%;
-
-  /* Primary - Cyan Accent */
-  --primary: 190 100% 50%;
-  --primary-foreground: 220 35% 6%;
-
-  /* Secondary */
-  --secondary: 220 25% 12%;
-  --secondary-foreground: 0 0% 98%;
-
-  /* Muted */
-  --muted: 220 20% 15%;
-  --muted-foreground: 0 0% 70%;
-
-  /* Accent - Purple Touch */
-  --accent: 270 70% 60%;
-  --accent-foreground: 0 0% 98%;
-
-  /* Destructive */
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 98%;
-
-  /* Border */
-  --border: 220 20% 18%;
-  --input: 220 20% 18%;
-  --ring: 190 100% 50%;
-
-  /* Chart Colors */
-  --chart-1: 190 100% 50%;
-  --chart-2: 270 70% 60%;
-  --chart-3: 340 75% 55%;
-  --chart-4: 47 100% 50%;
-  --chart-5: 160 75% 45%;
-
-  /* Custom Colors */
-  --cyan: 190 100% 50%;
-  --purple: 270 70% 60%;
-
-  --radius: 0.5rem;
+    --space-blue: 217 91% 8%;
+    --cyan: 189 100% 50%;
+    --purple: 271 76% 53%;
+  }
 }
 
 @layer base {
@@ -62,59 +44,84 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Orbitron', system-ui, sans-serif;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', system-ui, sans-serif;
-    font-weight: 700;
+    font-family: 'Orbitron', 'system-ui', 'sans-serif';
   }
 }
 
 @layer utilities {
-  /* Animations */
-  @keyframes grid {
-    0% {
-      transform: translateY(0);
-    }
-    100% {
-      transform: translateY(-50%);
-    }
+  .bg-space-blue {
+    background-color: hsl(var(--space-blue));
   }
 
-  .animate-grid {
-    animation: grid 20s linear infinite;
+  .text-cyan {
+    color: hsl(var(--cyan));
   }
 
-  @keyframes pulse-slow {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
+  .bg-cyan {
+    background-color: hsl(var(--cyan));
+  }
+
+  .border-cyan {
+    border-color: hsl(var(--cyan));
+  }
+
+  .text-purple {
+    color: hsl(var(--purple));
+  }
+
+  .from-cyan {
+    --tw-gradient-from: hsl(var(--cyan));
+  }
+
+  .to-purple {
+    --tw-gradient-to: hsl(var(--purple));
+  }
+
+  .from-cyan\/5 {
+    --tw-gradient-from: hsl(var(--cyan) / 0.05);
+  }
+
+  .from-cyan\/10 {
+    --tw-gradient-from: hsl(var(--cyan) / 0.1);
+  }
+
+  .from-cyan\/20 {
+    --tw-gradient-from: hsl(var(--cyan) / 0.2);
+  }
+
+  .to-purple\/10 {
+    --tw-gradient-to: hsl(var(--purple) / 0.1);
+  }
+
+  .to-purple\/20 {
+    --tw-gradient-to: hsl(var(--purple) / 0.2);
+  }
+
+  .border-cyan\/20 {
+    border-color: hsl(var(--cyan) / 0.2);
+  }
+
+  .border-cyan\/30 {
+    border-color: hsl(var(--cyan) / 0.3);
+  }
+
+  .border-cyan\/40 {
+    border-color: hsl(var(--cyan) / 0.4);
+  }
+
+  .bg-grid {
+    background-image: 
+      linear-gradient(to right, rgba(0, 217, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 217, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
   }
 
   .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .diagonal-cut {
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-  }
-
-  /* Floating animation for floor */
-  .floating-floor {
-    animation: float-floor 4s ease-in-out infinite;
-  }
-
-  @keyframes float-floor {
-    0%, 100% {
-      transform: rotateX(75deg) translateY(0px);
-    }
-    50% {
-      transform: rotateX(75deg) translateY(-10px);
-    }
   }
 
   /* Portrait Cards - Responsive sizing */
@@ -165,208 +172,350 @@
     }
   }
 
-  /* Floor Platform - Responsive */
-  .carousel-floor {
+  /* Floor Platform Center - Contains both floor and orbiting cards */
+  .carousel-floor-center {
     position: absolute;
-    bottom: 0;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: 200px;
     height: 200px;
-    z-index: 5;
+    transform-style: preserve-3d;
   }
 
   @media (min-width: 1024px) {
-    .carousel-floor {
+    .carousel-floor-center {
       width: 250px;
       height: 250px;
     }
   }
 
   @media (min-width: 1280px) {
-    .carousel-floor {
+    .carousel-floor-center {
       width: 300px;
       height: 300px;
     }
   }
 
   @media (min-width: 1536px) {
-    .carousel-floor {
+    .carousel-floor-center {
       width: 350px;
       height: 350px;
     }
   }
 
+  /* Floor Surface */
   .floor-surface {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(75deg);
     width: 100%;
     height: 100%;
-    transform: rotateX(75deg);
     transform-style: preserve-3d;
     animation: float-floor 4s ease-in-out infinite;
+    z-index: 5;
   }
 
-  /* 3D Carousel Container - Responsive */
-  .carousel-3d {
+  @keyframes float-floor {
+    0%, 100% {
+      transform: translate(-50%, -50%) rotateX(75deg) translateY(0px);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotateX(75deg) translateY(-10px);
+    }
+  }
+
+  /* Cards Orbit Container - Rotates around the floor */
+  .cards-orbit-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transform-style: preserve-3d;
     width: 100%;
     height: 100%;
+    transform-style: preserve-3d;
+    animation: orbit-around-floor 25s linear infinite;
   }
 
-  /* Individual Card Positioning - Responsive orbit radius */
-  .orbit-card-3d {
+  @keyframes orbit-around-floor {
+    from {
+      transform: translate(-50%, -50%) rotateY(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotateY(360deg);
+    }
+  }
+
+  /* Individual Cards Positioned Around Floor */
+  .orbit-card-around-floor {
     position: absolute;
     top: 50%;
     left: 50%;
-    animation: rotate-3d-carousel 25s linear infinite;
     transform-style: preserve-3d;
   }
 
-  /* Card 1 - Starting position */
+  /* Card 1 - Front */
   .orbit-card-1 {
-    animation-delay: 0s;
-  }
-
-  /* Card 2 */
-  .orbit-card-2 {
-    animation-delay: -5s;
-  }
-
-  /* Card 3 */
-  .orbit-card-3 {
-    animation-delay: -10s;
-  }
-
-  /* Card 4 */
-  .orbit-card-4 {
-    animation-delay: -15s;
-  }
-
-  /* Card 5 */
-  .orbit-card-5 {
-    animation-delay: -20s;
-  }
-
-  /* 3D Carousel Rotation with depth - Responsive orbit radius */
-  @keyframes rotate-3d-carousel {
-    0% {
-      transform: translate(-50%, -50%) rotateY(0deg) translateZ(200px);
-      filter: brightness(1.2) blur(0px);
-      z-index: 10;
-    }
-    25% {
-      transform: translate(-50%, -50%) rotateY(90deg) translateZ(200px);
-      filter: brightness(0.8) blur(1px);
-      z-index: 5;
-    }
-    50% {
-      transform: translate(-50%, -50%) rotateY(180deg) translateZ(200px);
-      filter: brightness(0.5) blur(2px);
-      z-index: 1;
-    }
-    75% {
-      transform: translate(-50%, -50%) rotateY(270deg) translateZ(200px);
-      filter: brightness(0.8) blur(1px);
-      z-index: 5;
-    }
-    100% {
-      transform: translate(-50%, -50%) rotateY(360deg) translateZ(200px);
-      filter: brightness(1.2) blur(0px);
-      z-index: 10;
-    }
+    transform: translate(-50%, -50%) translateZ(220px) rotateY(0deg);
+    animation: card-depth-1 25s linear infinite;
   }
 
   @media (min-width: 1024px) {
-    @keyframes rotate-3d-carousel {
-      0% {
-        transform: translate(-50%, -50%) rotateY(0deg) translateZ(250px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
-      25% {
-        transform: translate(-50%, -50%) rotateY(90deg) translateZ(250px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      50% {
-        transform: translate(-50%, -50%) rotateY(180deg) translateZ(250px);
-        filter: brightness(0.5) blur(2px);
-        z-index: 1;
-      }
-      75% {
-        transform: translate(-50%, -50%) rotateY(270deg) translateZ(250px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      100% {
-        transform: translate(-50%, -50%) rotateY(360deg) translateZ(250px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
+    .orbit-card-1 {
+      transform: translate(-50%, -50%) translateZ(270px) rotateY(0deg);
+      animation: card-depth-1-lg 25s linear infinite;
     }
   }
 
   @media (min-width: 1280px) {
-    @keyframes rotate-3d-carousel {
-      0% {
-        transform: translate(-50%, -50%) rotateY(0deg) translateZ(300px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
-      25% {
-        transform: translate(-50%, -50%) rotateY(90deg) translateZ(300px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      50% {
-        transform: translate(-50%, -50%) rotateY(180deg) translateZ(300px);
-        filter: brightness(0.5) blur(2px);
-        z-index: 1;
-      }
-      75% {
-        transform: translate(-50%, -50%) rotateY(270deg) translateZ(300px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      100% {
-        transform: translate(-50%, -50%) rotateY(360deg) translateZ(300px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
+    .orbit-card-1 {
+      transform: translate(-50%, -50%) translateZ(320px) rotateY(0deg);
+      animation: card-depth-1-xl 25s linear infinite;
     }
   }
 
   @media (min-width: 1536px) {
-    @keyframes rotate-3d-carousel {
-      0% {
-        transform: translate(-50%, -50%) rotateY(0deg) translateZ(350px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
-      25% {
-        transform: translate(-50%, -50%) rotateY(90deg) translateZ(350px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      50% {
-        transform: translate(-50%, -50%) rotateY(180deg) translateZ(350px);
-        filter: brightness(0.5) blur(2px);
-        z-index: 1;
-      }
-      75% {
-        transform: translate(-50%, -50%) rotateY(270deg) translateZ(350px);
-        filter: brightness(0.8) blur(1px);
-        z-index: 5;
-      }
-      100% {
-        transform: translate(-50%, -50%) rotateY(360deg) translateZ(350px);
-        filter: brightness(1.2) blur(0px);
-        z-index: 10;
-      }
+    .orbit-card-1 {
+      transform: translate(-50%, -50%) translateZ(370px) rotateY(0deg);
+      animation: card-depth-1-2xl 25s linear infinite;
     }
+  }
+
+  /* Card 2 */
+  .orbit-card-2 {
+    transform: translate(-50%, -50%) translateZ(220px) rotateY(0deg);
+    animation: card-depth-2 25s linear infinite;
+  }
+
+  @media (min-width: 1024px) {
+    .orbit-card-2 {
+      transform: translate(-50%, -50%) translateZ(270px) rotateY(0deg);
+      animation: card-depth-2-lg 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .orbit-card-2 {
+      transform: translate(-50%, -50%) translateZ(320px) rotateY(0deg);
+      animation: card-depth-2-xl 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .orbit-card-2 {
+      transform: translate(-50%, -50%) translateZ(370px) rotateY(0deg);
+      animation: card-depth-2-2xl 25s linear infinite;
+    }
+  }
+
+  /* Card 3 */
+  .orbit-card-3 {
+    transform: translate(-50%, -50%) translateZ(220px) rotateY(0deg);
+    animation: card-depth-3 25s linear infinite;
+  }
+
+  @media (min-width: 1024px) {
+    .orbit-card-3 {
+      transform: translate(-50%, -50%) translateZ(270px) rotateY(0deg);
+      animation: card-depth-3-lg 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .orbit-card-3 {
+      transform: translate(-50%, -50%) translateZ(320px) rotateY(0deg);
+      animation: card-depth-3-xl 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .orbit-card-3 {
+      transform: translate(-50%, -50%) translateZ(370px) rotateY(0deg);
+      animation: card-depth-3-2xl 25s linear infinite;
+    }
+  }
+
+  /* Card 4 */
+  .orbit-card-4 {
+    transform: translate(-50%, -50%) translateZ(220px) rotateY(0deg);
+    animation: card-depth-4 25s linear infinite;
+  }
+
+  @media (min-width: 1024px) {
+    .orbit-card-4 {
+      transform: translate(-50%, -50%) translateZ(270px) rotateY(0deg);
+      animation: card-depth-4-lg 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .orbit-card-4 {
+      transform: translate(-50%, -50%) translateZ(320px) rotateY(0deg);
+      animation: card-depth-4-xl 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .orbit-card-4 {
+      transform: translate(-50%, -50%) translateZ(370px) rotateY(0deg);
+      animation: card-depth-4-2xl 25s linear infinite;
+    }
+  }
+
+  /* Card 5 */
+  .orbit-card-5 {
+    transform: translate(-50%, -50%) translateZ(220px) rotateY(0deg);
+    animation: card-depth-5 25s linear infinite;
+  }
+
+  @media (min-width: 1024px) {
+    .orbit-card-5 {
+      transform: translate(-50%, -50%) translateZ(270px) rotateY(0deg);
+      animation: card-depth-5-lg 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .orbit-card-5 {
+      transform: translate(-50%, -50%) translateZ(320px) rotateY(0deg);
+      animation: card-depth-5-xl 25s linear infinite;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .orbit-card-5 {
+      transform: translate(-50%, -50%) translateZ(370px) rotateY(0deg);
+      animation: card-depth-5-2xl 25s linear infinite;
+    }
+  }
+
+  /* Card Depth Animations - Base (Tablets) */
+  @keyframes card-depth-1 {
+    0%, 100% { filter: brightness(1.2); z-index: 10; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-2 {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.5); z-index: 1; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(1.2); z-index: 10; }
+  }
+  @keyframes card-depth-3 {
+    0%, 100% { filter: brightness(0.5); z-index: 1; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(1.2); z-index: 10; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-4 {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(1.2); z-index: 10; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(0.5); z-index: 1; }
+  }
+  @keyframes card-depth-5 {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+
+  /* Laptop */
+  @keyframes card-depth-1-lg {
+    0%, 100% { filter: brightness(1.2); z-index: 10; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-2-lg {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.5); z-index: 1; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(1.2); z-index: 10; }
+  }
+  @keyframes card-depth-3-lg {
+    0%, 100% { filter: brightness(0.5); z-index: 1; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(1.2); z-index: 10; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-4-lg {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(1.2); z-index: 10; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(0.5); z-index: 1; }
+  }
+  @keyframes card-depth-5-lg {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+
+  /* Desktop */
+  @keyframes card-depth-1-xl {
+    0%, 100% { filter: brightness(1.2); z-index: 10; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-2-xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.5); z-index: 1; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(1.2); z-index: 10; }
+  }
+  @keyframes card-depth-3-xl {
+    0%, 100% { filter: brightness(0.5); z-index: 1; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(1.2); z-index: 10; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-4-xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(1.2); z-index: 10; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(0.5); z-index: 1; }
+  }
+  @keyframes card-depth-5-xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+
+  /* Large Screens */
+  @keyframes card-depth-1-2xl {
+    0%, 100% { filter: brightness(1.2); z-index: 10; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-2-2xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.5); z-index: 1; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(1.2); z-index: 10; }
+  }
+  @keyframes card-depth-3-2xl {
+    0%, 100% { filter: brightness(0.5); z-index: 1; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(1.2); z-index: 10; }
+    75% { filter: brightness(0.8); z-index: 5; }
+  }
+  @keyframes card-depth-4-2xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(1.2); z-index: 10; }
+    50% { filter: brightness(0.8); z-index: 5; }
+    75% { filter: brightness(0.5); z-index: 1; }
+  }
+  @keyframes card-depth-5-2xl {
+    0%, 100% { filter: brightness(0.8); z-index: 5; }
+    25% { filter: brightness(0.8); z-index: 5; }
+    50% { filter: brightness(0.5); z-index: 1; }
+    75% { filter: brightness(0.8); z-index: 5; }
   }
 
   /* Glassmorphism cards */

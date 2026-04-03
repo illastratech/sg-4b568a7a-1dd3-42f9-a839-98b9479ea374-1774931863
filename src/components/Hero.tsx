@@ -72,8 +72,8 @@ export function Hero() {
             <div className="relative h-full flex items-center justify-center px-4">
               <div className="carousel-wrapper" style={{ perspective: "1200px" }}>
                 
-                {/* Floor Platform - Positioned at bottom of carousel */}
-                <div className="carousel-floor">
+                {/* Floor Platform - Center piece that cards orbit around */}
+                <div className="carousel-floor-center">
                   <div className="floor-surface">
                     {/* Circular floor base */}
                     <div className="relative w-full h-full rounded-full bg-gradient-to-br from-cyan/10 to-purple/10 backdrop-blur-xl border-2 border-cyan/20 shadow-2xl flex items-center justify-center">
@@ -97,81 +97,81 @@ export function Hero() {
                       <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-black/30 blur-2xl rounded-full"></div>
                     </div>
                   </div>
-                </div>
 
-                {/* Orbiting Portrait Cards - Above the floor */}
-                <div className="carousel-3d">
-                  
-                  {/* Card 1 - Premium Selection */}
-                  <div className="orbit-card-3d orbit-card-1">
-                    <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
-                      <div className="flex flex-col items-center text-center h-full justify-between">
-                        <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
-                          <Car className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Premium Selection</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">Hand-picked luxury vehicles</p>
+                  {/* Orbiting Portrait Cards - Orbit around the floor */}
+                  <div className="cards-orbit-container">
+                    
+                    {/* Card 1 - Premium Selection */}
+                    <div className="orbit-card-around-floor orbit-card-1">
+                      <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                        <div className="flex flex-col items-center text-center h-full justify-between">
+                          <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                            <Car className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Premium Selection</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">Hand-picked luxury vehicles</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card 2 - Global Import */}
-                  <div className="orbit-card-3d orbit-card-2">
-                    <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
-                      <div className="flex flex-col items-center text-center h-full justify-between">
-                        <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
-                          <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Global Import</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">Direct from global markets</p>
+                    {/* Card 2 - Global Import */}
+                    <div className="orbit-card-around-floor orbit-card-2">
+                      <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                        <div className="flex flex-col items-center text-center h-full justify-between">
+                          <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                            <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Global Import</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">Direct from global markets</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card 3 - Certified Quality */}
-                  <div className="orbit-card-3d orbit-card-3">
-                    <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
-                      <div className="flex flex-col items-center text-center h-full justify-between">
-                        <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
-                          <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Certified Quality</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">150-point inspection</p>
+                    {/* Card 3 - Certified Quality */}
+                    <div className="orbit-card-around-floor orbit-card-3">
+                      <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                        <div className="flex flex-col items-center text-center h-full justify-between">
+                          <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                            <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Certified Quality</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">150-point inspection</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card 4 - Full Documentation */}
-                  <div className="orbit-card-3d orbit-card-4">
-                    <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
-                      <div className="flex flex-col items-center text-center h-full justify-between">
-                        <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
-                          <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Full Documentation</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">Complete paperwork</p>
+                    {/* Card 4 - Full Documentation */}
+                    <div className="orbit-card-around-floor orbit-card-4">
+                      <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                        <div className="flex flex-col items-center text-center h-full justify-between">
+                          <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                            <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Full Documentation</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">Complete paperwork</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Card 5 - Secure Delivery */}
-                  <div className="orbit-card-3d orbit-card-5">
-                    <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
-                      <div className="flex flex-col items-center text-center h-full justify-between">
-                        <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
-                          <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Secure Delivery</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">Insured shipping</p>
+                    {/* Card 5 - Secure Delivery */}
+                    <div className="orbit-card-around-floor orbit-card-5">
+                      <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                        <div className="flex flex-col items-center text-center h-full justify-between">
+                          <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                            <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Secure Delivery</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">Insured shipping</p>
+                          </div>
                         </div>
                       </div>
                     </div>
