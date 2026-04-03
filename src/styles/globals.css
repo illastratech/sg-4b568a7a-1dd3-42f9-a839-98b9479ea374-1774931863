@@ -91,86 +91,83 @@
 
   /* Portrait Cards */
   .portrait-card {
-    width: 220px;
-    height: 300px;
+    width: 200px;
+    height: 280px;
   }
 
   /* 3D Carousel Container */
   .carousel-3d {
-    position: relative;
-    width: 220px;
-    height: 300px;
-    transform-style: preserve-3d;
-    animation: carousel-rotate 25s linear infinite;
-  }
-
-  @keyframes carousel-rotate {
-    0% {
-      transform: rotateY(0deg);
-    }
-    100% {
-      transform: rotateY(360deg);
-    }
-  }
-
-  /* Individual Card Positioning in 3D Space */
-  .carousel-card {
     position: absolute;
-    width: 220px;
-    height: 300px;
+    width: 800px;
+    height: 800px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     transform-style: preserve-3d;
-    transform: 
-      rotateY(calc(var(--card-index) * 72deg)) 
-      translateZ(400px);
-    transition: all 0.3s ease;
   }
 
-  /* Scale and opacity based on Z position for depth effect */
-  .carousel-card:nth-child(1) {
-    animation: card-depth 25s linear infinite;
+  /* Individual Card Positioning */
+  .orbit-card-3d {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -140px;
+    animation: rotate-3d-carousel 25s linear infinite;
+    transform-style: preserve-3d;
+  }
+
+  /* Card 1 - Starting position */
+  .orbit-card-1 {
     animation-delay: 0s;
   }
 
-  .carousel-card:nth-child(2) {
-    animation: card-depth 25s linear infinite;
+  /* Card 2 */
+  .orbit-card-2 {
     animation-delay: -5s;
   }
 
-  .carousel-card:nth-child(3) {
-    animation: card-depth 25s linear infinite;
+  /* Card 3 */
+  .orbit-card-3 {
     animation-delay: -10s;
   }
 
-  .carousel-card:nth-child(4) {
-    animation: card-depth 25s linear infinite;
+  /* Card 4 */
+  .orbit-card-4 {
     animation-delay: -15s;
   }
 
-  .carousel-card:nth-child(5) {
-    animation: card-depth 25s linear infinite;
+  /* Card 5 */
+  .orbit-card-5 {
     animation-delay: -20s;
   }
 
-  @keyframes card-depth {
-    0%, 100% {
-      /* Front position */
+  /* 3D Carousel Rotation with depth */
+  @keyframes rotate-3d-carousel {
+    0% {
+      transform: rotateY(0deg) translateZ(400px);
       filter: brightness(1.2) blur(0px);
       z-index: 10;
     }
     25% {
-      /* Moving to side */
+      transform: rotateY(90deg) translateZ(400px);
       filter: brightness(0.8) blur(1px);
       z-index: 5;
     }
     50% {
-      /* Back position */
+      transform: rotateY(180deg) translateZ(400px);
       filter: brightness(0.5) blur(2px);
       z-index: 1;
     }
     75% {
-      /* Moving to other side */
+      transform: rotateY(270deg) translateZ(400px);
       filter: brightness(0.8) blur(1px);
       z-index: 5;
+    }
+    100% {
+      transform: rotateY(360deg) translateZ(400px);
+      filter: brightness(1.2) blur(0px);
+      z-index: 10;
     }
   }
 

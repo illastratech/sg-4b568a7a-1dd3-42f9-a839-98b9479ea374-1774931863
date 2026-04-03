@@ -105,7 +105,82 @@ export function Hero() {
             </div>
 
             {/* Orbiting Portrait Cards */}
-            <div className="carousel-3d absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ transformStyle: "preserve-3d" }}>
+            <div className="carousel-3d" style={{ transformStyle: "preserve-3d", position: "relative", width: "800px", height: "800px" }}>
+              
+              {/* Card 1 - Premium Selection */}
+              <div className="orbit-card-3d orbit-card-1">
+                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                  <div className="flex flex-col items-center text-center h-full justify-between">
+                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
+                      <Car className="h-8 w-8 text-cyan" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-2">Premium Selection</h3>
+                      <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2 - Global Import */}
+              <div className="orbit-card-3d orbit-card-2">
+                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                  <div className="flex flex-col items-center text-center h-full justify-between">
+                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
+                      <Globe className="h-8 w-8 text-cyan" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
+                      <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3 - Certified Quality */}
+              <div className="orbit-card-3d orbit-card-3">
+                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                  <div className="flex flex-col items-center text-center h-full justify-between">
+                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
+                      <Shield className="h-8 w-8 text-cyan" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-2">Certified Quality</h3>
+                      <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 4 - Full Documentation */}
+              <div className="orbit-card-3d orbit-card-4">
+                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                  <div className="flex flex-col items-center text-center h-full justify-between">
+                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
+                      <FileText className="h-8 w-8 text-cyan" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-2">Full Documentation</h3>
+                      <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 5 - Secure Delivery */}
+              <div className="orbit-card-3d orbit-card-5">
+                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                  <div className="flex flex-col items-center text-center h-full justify-between">
+                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
+                      <Truck className="h-8 w-8 text-cyan" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-white mb-2">Secure Delivery</h3>
+                      <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
