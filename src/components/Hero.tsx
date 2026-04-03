@@ -73,110 +73,39 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Right Two-Thirds - 3D Carousel with Floating Platform */}
-      <div className="hidden lg:block absolute right-0 top-0 w-2/3 h-full overflow-visible">
+      {/* Right Two-Thirds - 3D Carousel */}
+      <div className="hidden lg:block absolute right-0 top-0 w-2/3 h-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
         {/* 3D Carousel Container */}
-        <div className="relative h-full flex items-center justify-center perspective-3d">
-          
-          {/* Central Floating Platform */}
-          <div className="absolute z-20 floating-platform">
-            <div className="relative w-64 h-64">
-              {/* Outer Ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-cyan/30 bg-gradient-to-br from-cyan/5 to-transparent backdrop-blur-xl" />
-              
-              {/* Middle Ring */}
-              <div className="absolute inset-8 rounded-full border border-cyan/20 bg-gradient-to-br from-white/5 to-transparent" />
-              
-              {/* Inner Circle */}
-              <div className="absolute inset-16 rounded-full border border-cyan/40 bg-gradient-to-br from-cyan/10 to-transparent flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-2xl font-black text-cyan mb-1">TRIXON</div>
-                  <div className="text-xs text-muted-foreground tracking-widest">MOTORS</div>
-                </div>
-              </div>
-              
-              {/* Glow Effect */}
-              <div className="absolute inset-0 rounded-full bg-cyan/20 blur-xl opacity-50" />
-            </div>
-          </div>
-
-          {/* 3D Rotating Carousel */}
-          <div className="carousel-3d">
-            {/* Card 1 - Premium Selection */}
-            <div className="carousel-card" style={{ '--card-index': 0 } as React.CSSProperties}>
-              <div className="portrait-card glass-card rounded-2xl border border-cyan/20 p-6 hover:border-cyan/40 transition-all">
-                <div className="flex flex-col items-center text-center space-y-4 h-full">
-                  <div className="p-4 rounded-xl bg-cyan/20">
-                    <Car className="h-8 w-8 text-cyan" />
+        <div className="relative h-full flex items-center justify-center">
+          <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: "2000px" }}>
+            
+            {/* Central Floating Platform - Centered */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="floating-platform relative">
+                {/* Platform Base */}
+                <div className="relative w-64 h-64 rounded-full bg-gradient-to-br from-cyan/20 to-purple/20 backdrop-blur-xl border-2 border-cyan/30 shadow-2xl flex items-center justify-center">
+                  {/* Inner rings */}
+                  <div className="absolute inset-4 rounded-full border border-cyan/20"></div>
+                  <div className="absolute inset-8 rounded-full border border-cyan/15"></div>
+                  <div className="absolute inset-12 rounded-full border border-cyan/10"></div>
+                  
+                  {/* Logo/Brand */}
+                  <div className="relative z-10 text-center">
+                    <Car className="h-16 w-16 text-cyan mx-auto mb-3" />
+                    <h3 className="text-2xl font-bold text-white tracking-wider">TRIXON</h3>
+                    <p className="text-sm text-cyan tracking-widest">MOTORS</p>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-3">Premium Selection</h3>
-                    <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
-                  </div>
+                  
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan/10 to-transparent animate-pulse-slow"></div>
                 </div>
               </div>
             </div>
 
-            {/* Card 2 - Global Import */}
-            <div className="carousel-card" style={{ '--card-index': 1 } as React.CSSProperties}>
-              <div className="portrait-card glass-card rounded-2xl border border-cyan/20 p-6 hover:border-cyan/40 transition-all">
-                <div className="flex flex-col items-center text-center space-y-4 h-full">
-                  <div className="p-4 rounded-xl bg-cyan/20">
-                    <Globe className="h-8 w-8 text-cyan" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-3">Global Import</h3>
-                    <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 - Certified Quality */}
-            <div className="carousel-card" style={{ '--card-index': 2 } as React.CSSProperties}>
-              <div className="portrait-card glass-card rounded-2xl border border-cyan/20 p-6 hover:border-cyan/40 transition-all">
-                <div className="flex flex-col items-center text-center space-y-4 h-full">
-                  <div className="p-4 rounded-xl bg-cyan/20">
-                    <Shield className="h-8 w-8 text-cyan" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-3">Certified Quality</h3>
-                    <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 4 - Full Documentation */}
-            <div className="carousel-card" style={{ '--card-index': 3 } as React.CSSProperties}>
-              <div className="portrait-card glass-card rounded-2xl border border-cyan/20 p-6 hover:border-cyan/40 transition-all">
-                <div className="flex flex-col items-center text-center space-y-4 h-full">
-                  <div className="p-4 rounded-xl bg-cyan/20">
-                    <FileText className="h-8 w-8 text-cyan" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-3">Full Documentation</h3>
-                    <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 5 - Secure Delivery */}
-            <div className="carousel-card" style={{ '--card-index': 4 } as React.CSSProperties}>
-              <div className="portrait-card glass-card rounded-2xl border border-cyan/20 p-6 hover:border-cyan/40 transition-all">
-                <div className="flex flex-col items-center text-center space-y-4 h-full">
-                  <div className="p-4 rounded-xl bg-cyan/20">
-                    <Truck className="h-8 w-8 text-cyan" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-3">Secure Delivery</h3>
-                    <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
-                  </div>
-                </div>
-              </div>
+            {/* Orbiting Portrait Cards */}
+            <div className="carousel-3d absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ transformStyle: "preserve-3d" }}>
             </div>
           </div>
         </div>
