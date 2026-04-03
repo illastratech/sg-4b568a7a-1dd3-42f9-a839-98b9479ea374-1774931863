@@ -8,6 +8,12 @@ export function Hero() {
       <div className="absolute inset-0 bg-grid opacity-20"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan/5 to-transparent"></div>
       
+      {/* Car Background Images */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-cyan/20 to-transparent rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-purple/20 to-transparent rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "1s" }}></div>
+      </div>
+      
       {/* Content Container */}
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
