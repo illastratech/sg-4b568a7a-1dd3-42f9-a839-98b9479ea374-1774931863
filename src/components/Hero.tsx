@@ -9,7 +9,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan/5 to-transparent"></div>
       
       {/* Car Background Images */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_18_PM.png\")", backgroundColor: "transparent" }}>
         <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-cyan/20 to-transparent rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-tr from-purple/20 to-transparent rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "1s" }}></div>
       </div>
@@ -188,6 +188,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
