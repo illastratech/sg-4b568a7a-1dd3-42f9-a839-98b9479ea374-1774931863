@@ -2,36 +2,36 @@ import { Globe, FileCheck, Truck, Shield, Check } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 const steps = [
-  {
-    icon: Globe,
-    title: "Vehicle Selection",
-    description: "Choose any vehicle from our global network or request a specific model",
-    duration: "1-2 days"
-  },
-  {
-    icon: FileCheck,
-    title: "Documentation & Verification",
-    description: "Complete inspection, history verification, and legal documentation",
-    duration: "3-5 days"
-  },
-  {
-    icon: Truck,
-    title: "Shipping & Customs",
-    description: "Secure international shipping with full insurance and customs clearance",
-    duration: "3-6 weeks"
-  },
-  {
-    icon: Shield,
-    title: "Delivery & Registration",
-    description: "Final inspection, registration, and white-glove delivery to your door",
-    duration: "1-2 weeks"
-  }
-];
+{
+  icon: Globe,
+  title: "Vehicle Selection",
+  description: "Choose any vehicle from our global network or request a specific model",
+  duration: "1-2 days"
+},
+{
+  icon: FileCheck,
+  title: "Documentation & Verification",
+  description: "Complete inspection, history verification, and legal documentation",
+  duration: "3-5 days"
+},
+{
+  icon: Truck,
+  title: "Shipping & Customs",
+  description: "Secure international shipping with full insurance and customs clearance",
+  duration: "3-6 weeks"
+},
+{
+  icon: Shield,
+  title: "Delivery & Registration",
+  description: "Final inspection, registration, and white-glove delivery to your door",
+  duration: "1-2 weeks"
+}];
+
 
 export function ImportProcess() {
   return (
     <section id="import" className="py-24 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" style={{ backgroundColor: "#e5e5e5", backgroundImage: "none" }} />
       
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
@@ -47,12 +47,12 @@ export function ImportProcess() {
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent -translate-y-1/2" />
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {steps.map((step, index) => (
-              <Card 
-                key={step.title}
-                className="relative p-6 bg-card/50 border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 glass-effect"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
+            {steps.map((step, index) =>
+            <Card
+              key={step.title}
+              className="relative p-6 bg-card/50 border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 glass-effect"
+              style={{ animationDelay: `${index * 100}ms` }}>
+              
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary text-primary-foreground font-orbitron font-bold text-lg border-4 border-background">
                     {index + 1}
@@ -78,10 +78,10 @@ export function ImportProcess() {
                   <span>{step.duration}</span>
                 </div>
               </Card>
-            ))}
+            )}
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
