@@ -21,7 +21,7 @@ export function VehicleInventory() {
       const filters: any = {};
       if (activeFilter === "for_sale") filters.category = "for_sale";
       if (activeFilter === "import") filters.category = "import_service";
-      
+
       const data = await vehicleService.getAll(filters);
       setVehicles(data);
     } catch (error) {
@@ -32,13 +32,13 @@ export function VehicleInventory() {
   };
 
   const filters = [
-    { id: "all", label: "All Vehicles" },
-    { id: "for_sale", label: "For Sale" },
-    { id: "import", label: "Import Service" },
-  ];
+  { id: "all", label: "All Vehicles" },
+  { id: "for_sale", label: "For Sale" },
+  { id: "import", label: "Import Service" }];
+
 
   return (
-    <section className="py-20 relative">
+    <section className="py-20 relative" style={{ backgroundColor: "#e5e5e5", backgroundImage: "none" }}>
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
           <div className="inline-block p-2 rounded-lg bg-primary/10 border border-primary/30 mb-4">
@@ -54,63 +54,63 @@ export function VehicleInventory() {
 
         {/* Filters */}
         <div className="flex justify-center gap-4 mb-12">
-          {filters.map((filter) => (
-            <Button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              variant={activeFilter === filter.id ? "default" : "outline"}
-              className={
-                activeFilter === filter.id
-                  ? "futuristic-button"
-                  : "futuristic-border"
-              }
-            >
+          {filters.map((filter) =>
+          <Button
+            key={filter.id}
+            onClick={() => setActiveFilter(filter.id)}
+            variant={activeFilter === filter.id ? "default" : "outline"}
+            className={
+            activeFilter === filter.id ?
+            "futuristic-button" :
+            "futuristic-border"
+            }>
+            
               {filter.label}
             </Button>
-          ))}
+          )}
         </div>
 
         {/* Vehicles Grid */}
-        {loading ? (
-          <div className="text-center py-12">
+        {loading ?
+        <div className="text-center py-12">
             <p className="text-muted-foreground">Loading vehicles...</p>
-          </div>
-        ) : vehicles.length === 0 ? (
-          <Card className="futuristic-card p-12 text-center">
+          </div> :
+        vehicles.length === 0 ?
+        <Card className="futuristic-card p-12 text-center">
             <Car className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
             <h3 className="text-xl font-semibold mb-2">No vehicles available</h3>
             <p className="text-muted-foreground">Check back soon for new arrivals!</p>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vehicles.map((vehicle) => (
-              <Link key={vehicle.id} href={`/vehicles/${vehicle.id}`}>
+          </Card> :
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {vehicles.map((vehicle) =>
+          <Link key={vehicle.id} href={`/vehicles/${vehicle.id}`}>
                 <Card className="group overflow-hidden bg-gradient-to-br from-space-blue via-space-blue/95 to-space-blue border-cyan/20 hover:border-cyan/40 transition-all cursor-pointer h-full">
                   {/* Vehicle Image */}
                   <div className="relative h-48 bg-card/50 border-b border-border/50">
-                    {vehicle.images && vehicle.images.length > 0 ? (
-                      <img
-                        src={vehicle.images[0]}
-                        alt={`${vehicle.make} ${vehicle.model}`}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
+                    {vehicle.images && vehicle.images.length > 0 ?
+                <img
+                  src={vehicle.images[0]}
+                  alt={`${vehicle.make} ${vehicle.model}`}
+                  className="w-full h-full object-cover" /> :
+
+
+                <div className="flex items-center justify-center h-full">
                         <Car className="w-16 h-16 text-muted-foreground opacity-30" />
                       </div>
-                    )}
+                }
                     <div className="absolute top-4 right-4">
                       <Badge className="bg-primary/90 text-white border-0">
                         {vehicle.condition}
                       </Badge>
                     </div>
-                    {vehicle.category === "import_service" && (
-                      <div className="absolute top-4 left-4">
+                    {vehicle.category === "import_service" &&
+                <div className="absolute top-4 left-4">
                         <Badge className="bg-orange-500/90 text-white border-0">
                           Import Service
                         </Badge>
                       </div>
-                    )}
+                }
                   </div>
 
                   {/* Vehicle Info */}
@@ -144,10 +144,10 @@ export function VehicleInventory() {
                     <div className="pt-4 border-t border-border/50">
                       <div className="flex items-center justify-between">
                         <span className="text-2xl font-bold text-cyan">${vehicle.price.toLocaleString()}</span>
-                        <Button 
-                          size="sm" 
-                          className="bg-cyan/10 hover:bg-cyan/20 border border-cyan/20 group-hover:bg-cyan group-hover:text-background transition-colors"
-                        >
+                        <Button
+                      size="sm"
+                      className="bg-cyan/10 hover:bg-cyan/20 border border-cyan/20 group-hover:bg-cyan group-hover:text-background transition-colors">
+                      
                           View Details
                           <ExternalLink className="h-4 w-4 ml-1" />
                         </Button>
@@ -156,10 +156,10 @@ export function VehicleInventory() {
                   </div>
                 </Card>
               </Link>
-            ))}
+          )}
           </div>
-        )}
+        }
       </div>
-    </section>
-  );
+    </section>);
+
 }
