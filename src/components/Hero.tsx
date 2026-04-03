@@ -29,7 +29,7 @@ export function Hero() {
             {/* Main Heading */}
             <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6 leading-tight">
               Import Your
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan to-purple">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan to-purple" style={{ color: "#bababa" }}>
                 Dream Car
               </span>
             </h1>
@@ -71,7 +71,7 @@ export function Hero() {
         {/* Right Section - 3D Carousel (2/3) - Clean background */}
         <div className="hidden lg:flex w-2/3 items-center justify-center relative">
           {/* Clean subtle gradient - no filters */}
-          <div className="absolute inset-0 bg-gradient-to-l from-space-blue via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-l from-space-blue via-transparent to-transparent" style={{ backgroundImage: "url(\"/ChatGPT_Image_Mar_30_2026_10_05_18_PM.png\")", backgroundColor: "transparent" }}></div>
           
           {/* 3D Carousel */}
           <div className="carousel-wrapper relative z-10" style={{ perspective: "1200px" }}>
