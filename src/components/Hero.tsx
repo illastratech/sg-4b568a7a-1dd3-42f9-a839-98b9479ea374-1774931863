@@ -77,46 +77,50 @@ export function Hero() {
       <div className="hidden lg:block absolute right-0 top-0 w-2/3 h-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-l from-cyan/5 to-transparent" />
         
-        {/* 3D Carousel Container */}
+        {/* 3D Carousel Container - Centered */}
         <div className="relative h-full flex items-center justify-center">
-          <div className="relative w-full h-full flex items-center justify-center" style={{ perspective: "2000px" }}>
+          <div className="carousel-wrapper" style={{ perspective: "1500px" }}>
             
-            {/* Central Floating Platform - Centered */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-              <div className="floating-platform relative">
-                {/* Platform Base */}
-                <div className="relative w-64 h-64 rounded-full bg-gradient-to-br from-cyan/20 to-purple/20 backdrop-blur-xl border-2 border-cyan/30 shadow-2xl flex items-center justify-center">
-                  {/* Inner rings */}
-                  <div className="absolute inset-4 rounded-full border border-cyan/20"></div>
-                  <div className="absolute inset-8 rounded-full border border-cyan/15"></div>
-                  <div className="absolute inset-12 rounded-full border border-cyan/10"></div>
+            {/* Floor Platform - Positioned at bottom of carousel */}
+            <div className="carousel-floor">
+              <div className="floor-surface">
+                {/* Circular floor base */}
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-cyan/10 to-purple/10 backdrop-blur-xl border-2 border-cyan/20 shadow-2xl flex items-center justify-center">
+                  {/* Floor rings */}
+                  <div className="absolute inset-0 rounded-full border-2 border-cyan/20"></div>
+                  <div className="absolute inset-4 rounded-full border border-cyan/15"></div>
+                  <div className="absolute inset-8 rounded-full border border-cyan/10"></div>
+                  <div className="absolute inset-12 rounded-full border border-cyan/5"></div>
                   
-                  {/* Logo/Brand */}
+                  {/* Logo/Brand centered on floor */}
                   <div className="relative z-10 text-center">
-                    <Car className="h-16 w-16 text-cyan mx-auto mb-3" />
-                    <h3 className="text-2xl font-bold text-white tracking-wider">TRIXON</h3>
-                    <p className="text-sm text-cyan tracking-widest">MOTORS</p>
+                    <Car className="h-12 w-12 sm:h-16 sm:w-16 text-cyan mx-auto mb-2" />
+                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-wider">TRIXON</h3>
+                    <p className="text-xs sm:text-sm text-cyan tracking-widest">MOTORS</p>
                   </div>
                   
-                  {/* Glow effect */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan/10 to-transparent animate-pulse-slow"></div>
+                  {/* Floor glow effect */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-t from-cyan/20 to-transparent animate-pulse-slow"></div>
+                  
+                  {/* Shadow underneath */}
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5 h-8 bg-black/30 blur-2xl rounded-full"></div>
                 </div>
               </div>
             </div>
 
-            {/* Orbiting Portrait Cards */}
-            <div className="carousel-3d" style={{ transformStyle: "preserve-3d", position: "relative", width: "800px", height: "800px" }}>
+            {/* Orbiting Portrait Cards - Above the floor */}
+            <div className="carousel-3d">
               
               {/* Card 1 - Premium Selection */}
               <div className="orbit-card-3d orbit-card-1">
-                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
                   <div className="flex flex-col items-center text-center h-full justify-between">
-                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
-                      <Car className="h-8 w-8 text-cyan" />
+                    <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                      <Car className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-white mb-2">Premium Selection</h3>
-                      <p className="text-sm text-muted-foreground">Hand-picked luxury vehicles from global markets</p>
+                      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Premium Selection</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Hand-picked luxury vehicles</p>
                     </div>
                   </div>
                 </div>
@@ -124,14 +128,14 @@ export function Hero() {
 
               {/* Card 2 - Global Import */}
               <div className="orbit-card-3d orbit-card-2">
-                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
                   <div className="flex flex-col items-center text-center h-full justify-between">
-                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
-                      <Globe className="h-8 w-8 text-cyan" />
+                    <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                      <Globe className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-white mb-2">Global Import</h3>
-                      <p className="text-sm text-muted-foreground">Direct imports from Japan, USA, Europe & UAE</p>
+                      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Global Import</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Direct from global markets</p>
                     </div>
                   </div>
                 </div>
@@ -139,14 +143,14 @@ export function Hero() {
 
               {/* Card 3 - Certified Quality */}
               <div className="orbit-card-3d orbit-card-3">
-                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
                   <div className="flex flex-col items-center text-center h-full justify-between">
-                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
-                      <Shield className="h-8 w-8 text-cyan" />
+                    <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                      <Shield className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-white mb-2">Certified Quality</h3>
-                      <p className="text-sm text-muted-foreground">Rigorous 150-point inspection process</p>
+                      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Certified Quality</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">150-point inspection</p>
                     </div>
                   </div>
                 </div>
@@ -154,14 +158,14 @@ export function Hero() {
 
               {/* Card 4 - Full Documentation */}
               <div className="orbit-card-3d orbit-card-4">
-                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
                   <div className="flex flex-col items-center text-center h-full justify-between">
-                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
-                      <FileText className="h-8 w-8 text-cyan" />
+                    <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                      <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-white mb-2">Full Documentation</h3>
-                      <p className="text-sm text-muted-foreground">Complete paperwork & customs clearance</p>
+                      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Full Documentation</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Complete paperwork</p>
                     </div>
                   </div>
                 </div>
@@ -169,14 +173,14 @@ export function Hero() {
 
               {/* Card 5 - Secure Delivery */}
               <div className="orbit-card-3d orbit-card-5">
-                <div className="portrait-card glass-card p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
+                <div className="portrait-card glass-card p-4 sm:p-6 rounded-xl backdrop-blur-xl bg-white/5 border border-cyan/20 shadow-2xl hover:border-cyan/40 transition-all">
                   <div className="flex flex-col items-center text-center h-full justify-between">
-                    <div className="p-4 rounded-lg bg-cyan/20 mb-4">
-                      <Truck className="h-8 w-8 text-cyan" />
+                    <div className="p-3 sm:p-4 rounded-lg bg-cyan/20 mb-3 sm:mb-4">
+                      <Truck className="h-6 w-6 sm:h-8 sm:w-8 text-cyan" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-white mb-2">Secure Delivery</h3>
-                      <p className="text-sm text-muted-foreground">Insured shipping to your doorstep</p>
+                      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2">Secure Delivery</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Insured shipping</p>
                     </div>
                   </div>
                 </div>
