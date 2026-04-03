@@ -18,7 +18,7 @@ export function Hero() {
       <div className="relative h-screen flex">
         
         {/* Left Section - Content (1/3) */}
-        <div className="w-full lg:w-1/3 flex items-center justify-center px-6 lg:px-12 relative z-10">
+        <div className="w-full lg:w-1/3 flex items-center justify-center px-6 lg:px-12 relative z-10" style={{ backgroundColor: "#0f3665", backgroundImage: "none" }}>
           <div className="max-w-xl text-center lg:text-left">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan/10 border border-cyan/20 mb-6">
