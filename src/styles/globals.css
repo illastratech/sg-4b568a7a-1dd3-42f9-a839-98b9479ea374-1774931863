@@ -79,21 +79,85 @@
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
   }
 
-  /* Seamless orbiting animation for hero cards */
-  .scroll-container-seamless {
-    animation: scroll-orbit 30s linear infinite;
+  /* Floating Platform Animation */
+  .floating-platform {
+    animation: float 6s ease-in-out infinite;
   }
 
-  .scroll-container-seamless:hover {
-    animation-play-state: paused;
-  }
-
-  @keyframes scroll-orbit {
-    0% {
-      transform: translateY(0);
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
     }
-    100% {
-      transform: translateY(calc(-100% / 3));
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Portrait Cards */
+  .portrait-card {
+    width: 200px;
+    height: 280px;
+  }
+
+  /* Orbit Container */
+  .orbit-container {
+    animation: rotate-orbit 40s linear infinite;
+  }
+
+  @keyframes rotate-orbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Individual Card Positioning */
+  .orbit-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+  }
+
+  /* Card 1 - Top */
+  .orbit-card-1 {
+    transform: translate(-50%, -50%) rotate(0deg) translateX(300px) rotate(0deg);
+    animation: counter-rotate 40s linear infinite;
+  }
+
+  /* Card 2 - Right */
+  .orbit-card-2 {
+    transform: translate(-50%, -50%) rotate(72deg) translateX(300px) rotate(-72deg);
+    animation: counter-rotate 40s linear infinite;
+  }
+
+  /* Card 3 - Bottom Right */
+  .orbit-card-3 {
+    transform: translate(-50%, -50%) rotate(144deg) translateX(300px) rotate(-144deg);
+    animation: counter-rotate 40s linear infinite;
+  }
+
+  /* Card 4 - Bottom Left */
+  .orbit-card-4 {
+    transform: translate(-50%, -50%) rotate(216deg) translateX(300px) rotate(-216deg);
+    animation: counter-rotate 40s linear infinite;
+  }
+
+  /* Card 5 - Left */
+  .orbit-card-5 {
+    transform: translate(-50%, -50%) rotate(288deg) translateX(300px) rotate(-288deg);
+    animation: counter-rotate 40s linear infinite;
+  }
+
+  /* Counter-rotate to keep cards upright */
+  @keyframes counter-rotate {
+    from {
+      transform: translate(-50%, -50%) rotate(var(--start-angle)) translateX(300px) rotate(calc(-1 * var(--start-angle)));
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(calc(var(--start-angle) + 360deg)) translateX(300px) rotate(calc(-1 * (var(--start-angle) + 360deg)));
     }
   }
 
