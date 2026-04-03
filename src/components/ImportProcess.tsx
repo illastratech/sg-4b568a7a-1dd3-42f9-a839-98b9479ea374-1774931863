@@ -31,7 +31,7 @@ const steps = [
 export function ImportProcess() {
   return (
     <section id="import" className="py-24 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" style={{ backgroundColor: "#e5e5e5", backgroundImage: "none" }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 via-background to-background" style={{ backgroundColor: "#bababa", backgroundImage: "none" }} />
       
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
